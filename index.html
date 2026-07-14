@@ -13,21 +13,98 @@
     --lgray: #F5F5F5;
     --mgray: #DDDDDD;
     --white: #FFFFFF;
+    --sidebar-w: 230px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #333; background: #fff; line-height: 1.6; }
+
+  /* ── Sidebar ─────────────────────────────────────────────────────────── */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: var(--sidebar-w); height: 100vh;
+    background: var(--navy); color: #fff;
+    overflow-y: auto; overflow-x: hidden;
+    z-index: 200;
+    display: flex; flex-direction: column;
+    transition: transform 0.25s ease;
+  }
+  .sidebar-header {
+    padding: 18px 16px 12px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+  .sidebar nav { padding: 8px 0 24px; }
+  .nav-group { margin-bottom: 2px; }
+  .nav-group-label {
+    display: block; padding: 7px 16px 5px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+    margin-top: 10px;
+  }
+  .nav-link {
+    display: block; padding: 6px 16px 6px 16px;
+    color: rgba(255,255,255,0.8); text-decoration: none;
+    font-size: 13px; line-height: 1.3;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-link.active { background: rgba(255,255,255,0.12); color: #fff; border-left-color: var(--gold); }
+  .nav-sub {
+    display: none;
+    padding-left: 0;
+  }
+  .nav-group.open .nav-sub { display: block; }
+  .nav-sub .nav-link {
+    font-size: 12px; padding: 4px 16px 4px 28px;
+    color: rgba(255,255,255,0.6);
+  }
+  .nav-sub .nav-link:hover { color: rgba(255,255,255,0.9); }
+  .nav-sub .nav-link.active { color: #fff; border-left-color: var(--gold); }
+  .nav-day-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; user-select: none;
+  }
+  .nav-day-toggle::after {
+    content: "›"; font-size: 14px; color: rgba(255,255,255,0.4);
+    transition: transform 0.2s; flex-shrink: 0; margin-right: 4px;
+  }
+  .nav-group.open .nav-day-toggle::after { transform: rotate(90deg); }
+
+  /* Sidebar toggle button (mobile) */
+  .sidebar-toggle {
+    display: none;
+    position: fixed; top: 12px; left: 12px; z-index: 300;
+    background: var(--navy); color: #fff; border: none;
+    width: 38px; height: 38px; border-radius: 6px;
+    font-size: 18px; cursor: pointer; align-items: center; justify-content: center;
+  }
+
+  /* ── Main content ────────────────────────────────────────────────────── */
+  .main { margin-left: var(--sidebar-w); }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 40px 40px 40px; }
 
   /* Print */
   @media print {
-    .no-print { display: none; }
+    .no-print, .sidebar, .sidebar-toggle { display: none !important; }
+    .main { margin-left: 0; }
     body { font-size: 11px; }
     .day-header { page-break-before: always; }
     .day-header:first-of-type { page-break-before: avoid; }
     a { color: var(--blue); text-decoration: none; }
   }
 
-  /* Layout */
-  .container { max-width: 960px; margin: 0 auto; padding: 40px 32px; }
+  /* Mobile */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-toggle { display: flex; }
+    .main { margin-left: 0; }
+    .container { padding: 56px 20px 20px; }
+  }
 
   /* Cover */
   .cover { text-align: center; padding: 80px 0 60px; border-bottom: 3px solid var(--navy); margin-bottom: 48px; }
@@ -91,7 +168,6 @@
   /* Body text */
   p { margin: 10px 0; color: #333; }
   .italic { font-style: italic; color: #666; font-size: 13px; }
-  .note { background: #FFF8E7; border-left: 4px solid var(--gold); padding: 10px 14px; border-radius: 0 4px 4px 0; margin: 12px 0; font-size: 13px; }
 
   /* Hotel cards */
   .hotel-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
@@ -110,18 +186,92 @@
   .footer { text-align: center; padding: 40px 0 20px; color: var(--navy); font-size: 16px; font-weight: 700; border-top: 2px solid var(--navy); margin-top: 48px; }
 
   /* Print button */
-  .print-btn { position: fixed; top: 20px; right: 20px; background: var(--navy); color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; z-index: 100; }
+  .print-btn { position: fixed; top: 14px; right: 20px; background: var(--navy); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; z-index: 100; }
   .print-btn:hover { background: var(--blue); }
 </style>
 </head>
 <body>
 
+<!-- Sidebar toggle (mobile) -->
+<button class="sidebar-toggle no-print" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle navigation">☰</button>
+
+<!-- Print button -->
 <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save PDF</button>
 
+<!-- ── Sidebar ─────────────────────────────────────────────────────────────── -->
+<aside class="sidebar no-print" id="sidebar">
+  <div class="sidebar-header">Vienna &amp; Budapest 2026</div>
+  <nav>
+    <span class="nav-group-label">General</span>
+    <a class="nav-link" href="#overview">📋 Trip Overview</a>
+    <a class="nav-link" href="#vienna-guide">🇦🇹 Vienna Guide</a>
+    <a class="nav-link" href="#budapest-guide">🇭🇺 Budapest Guide</a>
+    <a class="nav-link" href="#hungarian-phrases">🗣️ Hungarian Phrases</a>
+
+    <span class="nav-group-label">Itinerary</span>
+
+    <div class="nav-group" id="ng-day1">
+      <a class="nav-link nav-day-toggle" href="#day1" onclick="toggleGroup(event,'ng-day1')">Day 1 · Sep 5 — Arrival</a>
+      <div class="nav-sub">
+        <a class="nav-link" href="#day1-morning">🌅 Morning</a>
+        <a class="nav-link" href="#day1-afternoon">☀️ Afternoon</a>
+      </div>
+    </div>
+
+    <div class="nav-group" id="ng-day2">
+      <a class="nav-link nav-day-toggle" href="#day2" onclick="toggleGroup(event,'ng-day2')">Day 2 · Sep 6 — Hofburg &amp; KHM</a>
+      <div class="nav-sub">
+        <a class="nav-link" href="#day2-morning">🌅 Morning</a>
+        <a class="nav-link" href="#day2-afternoon">☀️ Afternoon</a>
+        <a class="nav-link" href="#day2-evening">🌙 Evening</a>
+      </div>
+    </div>
+
+    <div class="nav-group" id="ng-day3">
+      <a class="nav-link nav-day-toggle" href="#day3" onclick="toggleGroup(event,'ng-day3')">Day 3 · Sep 7 — Schönbrunn &amp; Belvedere</a>
+      <div class="nav-sub">
+        <a class="nav-link" href="#day3-morning">🌅 Morning</a>
+        <a class="nav-link" href="#day3-afternoon">☀️ Afternoon</a>
+        <a class="nav-link" href="#day3-evening">🌙 Evening</a>
+      </div>
+    </div>
+
+    <div class="nav-group" id="ng-day4">
+      <a class="nav-link nav-day-toggle" href="#day4" onclick="toggleGroup(event,'ng-day4')">Day 4 · Sep 8 — Vienna → Budapest</a>
+      <div class="nav-sub">
+        <a class="nav-link" href="#day4-morning">🌅 Morning</a>
+        <a class="nav-link" href="#day4-travel">🚆 Travel</a>
+        <a class="nav-link" href="#day4-afternoon">☀️ Afternoon</a>
+        <a class="nav-link" href="#day4-evening">🌙 Evening</a>
+      </div>
+    </div>
+
+    <div class="nav-group" id="ng-day5">
+      <a class="nav-link nav-day-toggle" href="#day5" onclick="toggleGroup(event,'ng-day5')">Day 5 · Sep 9 — Full Budapest</a>
+      <div class="nav-sub">
+        <a class="nav-link" href="#day5-morning">🌅 Morning</a>
+        <a class="nav-link" href="#day5-afternoon">☀️ Afternoon</a>
+        <a class="nav-link" href="#day5-evening">🌙 Evening &amp; Ruin Bars</a>
+      </div>
+    </div>
+
+    <div class="nav-group" id="ng-day6">
+      <a class="nav-link nav-day-toggle" href="#day6" onclick="toggleGroup(event,'ng-day6')">Day 6 · Sep 10 — Departure</a>
+      <div class="nav-sub">
+        <a class="nav-link" href="#day6-morning">🌅 Morning</a>
+        <a class="nav-link" href="#day6-travel">🚆 Travel Back</a>
+        <a class="nav-link" href="#day6-afternoon">🏙️ Final Vienna Hours</a>
+      </div>
+    </div>
+  </nav>
+</aside>
+
+<!-- ── Main content ────────────────────────────────────────────────────────── -->
+<div class="main">
 <div class="container">
 
 <!-- COVER -->
-<div class="cover">
+<div class="cover" id="top">
   <div class="flag">🇦🇹 &nbsp; 🇭🇺</div>
   <h1>Vienna &amp; Budapest</h1>
   <div class="subtitle">Travel Itinerary &nbsp;·&nbsp; September 5–10, 2026</div>
@@ -129,6 +279,7 @@
 </div>
 
 <!-- OVERVIEW -->
+<div id="overview"></div>
 <div class="section-title">Trip Overview</div>
 
 <div class="hotel-cards">
@@ -169,6 +320,7 @@
 <hr>
 
 <!-- VIENNA FOOD & CULTURE -->
+<div id="vienna-guide"></div>
 <div class="section-title">🇦🇹 Vienna: Food, Culture &amp; What to Expect</div>
 
 <div class="time-block">
@@ -204,6 +356,7 @@
 <hr>
 
 <!-- BUDAPEST FOOD & CULTURE -->
+<div id="budapest-guide"></div>
 <div class="section-title">🇭🇺 Budapest: Food, Culture &amp; What to Expect</div>
 
 <div class="time-block">
@@ -239,7 +392,7 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="hungarian-phrases">
   <div class="time-label">Essential Hungarian Phrases</div>
   <p class="italic" style="margin-bottom:12px;">Hungarian (Magyar) is famously difficult, but a few words go a long way. Locals genuinely appreciate any attempt.</p>
   <table class="phrases-table">
@@ -272,9 +425,8 @@
 
 <hr>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- DAY 1 -->
-<!-- ═══════════════════════════════════════════════════ -->
+<!-- ═══ DAY 1 ═══ -->
+<div id="day1"></div>
 <div class="day-header">Day 1 &nbsp;·&nbsp; Saturday, Sep 5 &nbsp;|&nbsp; Arrival in Vienna</div>
 
 <div class="travel-block">
@@ -282,7 +434,7 @@
   <p>Clear customs, collect bags, take the City Airport Train (CAT, 16 min, €14) or Airport Bus (30 min, €9). Drop bags at Le Méridien — the room likely won't be ready. Rest in the lobby or explore gently. This is a recovery day; don't over-schedule it.</p>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day1-morning">
   <div class="time-label">🌅 Morning (9–11 AM) — Gentle Arrival</div>
   <div class="italic">Choose one — all within 5 min walk of Le Méridien</div>
   <div class="sub-label">Activity Options</div>
@@ -299,7 +451,7 @@
   </div>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day1-afternoon">
   <div class="time-label">☀️ Afternoon (1–5 PM) — Easy Sightseeing</div>
   <div class="italic">Keep it light — jet lag is real on Day 1</div>
   <div class="sub-label">Activity Options</div>
@@ -324,10 +476,11 @@
 
 <hr>
 
-<!-- DAY 2 -->
+<!-- ═══ DAY 2 ═══ -->
+<div id="day2"></div>
 <div class="day-header">Day 2 &nbsp;·&nbsp; Sunday, Sep 6 &nbsp;|&nbsp; Hofburg &amp; Kunsthistorisches Museum</div>
 
-<div class="time-block">
+<div class="time-block" id="day2-morning">
   <div class="time-label">🌅 Morning (9 AM – 12:30 PM) — Hofburg Palace Complex</div>
   <div class="sub-label">🥐 Breakfast Options</div>
   <div class="meal-grid">
@@ -343,7 +496,7 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day2-afternoon">
   <div class="time-label">☀️ Afternoon (1–5:30 PM) — Kunsthistorisches Museum</div>
   <div class="sub-label">🥗 Lunch Options</div>
   <div class="meal-grid">
@@ -359,7 +512,7 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day2-evening">
   <div class="time-label">🌙 Evening Options</div>
   <div class="meal-grid">
     <div class="meal-card evening"><a href="https://www.wiener-staatsoper.at/en/" target="_blank">Vienna State Opera</a><div class="detail">September opens the season. Standing room ~€10 from the side entrance, even for sold-out shows.</div></div>
@@ -376,11 +529,12 @@
 
 <hr>
 
-<!-- DAY 3 -->
+<!-- ═══ DAY 3 ═══ -->
+<div id="day3"></div>
 <div class="day-header">Day 3 &nbsp;·&nbsp; Monday, Sep 7 &nbsp;|&nbsp; Schönbrunn &amp; Belvedere</div>
 <div class="italic" style="margin:8px 0 16px;">Take U4 from Karlsplatz (10 min walk from Le Méridien) to Schönbrunn station — ~20 min total</div>
 
-<div class="time-block">
+<div class="time-block" id="day3-morning">
   <div class="time-label">🌅 Morning (8:30 AM – 12 PM) — Schönbrunn Palace</div>
   <div class="sub-label">🥐 Breakfast Options</div>
   <div class="meal-grid">
@@ -396,7 +550,7 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day3-afternoon">
   <div class="time-label">☀️ Afternoon (1:30–5:30 PM) — Upper Belvedere</div>
   <div class="italic">Take U4 back toward center then tram to Belvedere (~30 min), or taxi direct (~15 min, ~€12)</div>
   <div class="sub-label">🥗 Lunch Options</div>
@@ -413,7 +567,7 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day3-evening">
   <div class="time-label">🌙 Evening Options</div>
   <div class="meal-grid">
     <div class="meal-card evening"><a href="https://www.musikverein.at/en/" target="_blank">Musikverein</a><div class="detail">Musikvereinsplatz 1 · Home of the Vienna Philharmonic. Tickets from ~€30. The Goldener Saal is one of the most beautiful rooms on earth.</div></div>
@@ -430,10 +584,11 @@
 
 <hr>
 
-<!-- DAY 4 -->
+<!-- ═══ DAY 4 ═══ -->
+<div id="day4"></div>
 <div class="day-header">Day 4 &nbsp;·&nbsp; Tuesday, Sep 8 &nbsp;|&nbsp; Vienna → Budapest + Castle Hill</div>
 
-<div class="time-block">
+<div class="time-block" id="day4-morning">
   <div class="time-label">🌅 Morning (7–9:30 AM) — Final Vienna Breakfast &amp; Checkout</div>
   <div class="sub-label">🥐 Breakfast Options</div>
   <div class="meal-grid">
@@ -443,12 +598,12 @@
   </div>
 </div>
 
-<div class="travel-block">
+<div class="travel-block" id="day4-travel">
   <strong>🚆 Travel: Vienna → Budapest (10 AM – 12:30 PM)</strong>
   <p>Walk or Uber to Wien Hauptbahnhof (~15 min from hotel, or U1 from Stephansplatz). Railjet departs ~10:00 AM, arrives Budapest-Keleti ~12:30 PM. Modern, comfortable — enjoy the countryside. Book at <a href="https://www.oebb.at/en/" target="_blank" style="color:var(--blue)">oebb.at</a> or <a href="https://regiojet.com" target="_blank" style="color:var(--blue)">regiojet.com</a>.</p>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day4-afternoon">
   <div class="time-label">☀️ Afternoon (1:30–6 PM) — Check In + Castle Hill</div>
   <div class="italic">Check into the Budapest Marriott — request a Danube-view room. Walk across the Chain Bridge (10 min) to Castle Hill.</div>
   <div class="sub-label">🥗 Lunch Options (Castle Hill)</div>
@@ -465,7 +620,7 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day4-evening">
   <div class="time-label">🌙 Evening Options</div>
   <div class="meal-grid">
     <div class="meal-card evening"><a href="https://www.legenda.hu/en/" target="_blank">Danube evening cruise</a><div class="detail">Budapest at night from the water — Parliament, Castle Hill, and all five bridges illuminated. Departs near the Marriott.</div><div class="price">~€20–30pp, 1 hr</div></div>
@@ -482,10 +637,11 @@
 
 <hr>
 
-<!-- DAY 5 -->
+<!-- ═══ DAY 5 ═══ -->
+<div id="day5"></div>
 <div class="day-header">Day 5 &nbsp;·&nbsp; Wednesday, Sep 9 &nbsp;|&nbsp; Full Budapest</div>
 
-<div class="time-block">
+<div class="time-block" id="day5-morning">
   <div class="time-label">🌅 Morning (8:30 AM – 12:30 PM) — Parliament &amp; Riverfront</div>
   <div class="sub-label">🥐 Breakfast Options</div>
   <div class="meal-grid">
@@ -501,81 +657,8 @@
   </ul>
 </div>
 
-<div class="time-block">
+<div class="time-block" id="day5-afternoon">
   <div class="time-label">☀️ Afternoon (1:30–6:30 PM) — Andrássy Avenue → Heroes' Square → Széchenyi Baths</div>
   <div class="sub-label">🥗 Lunch Options</div>
   <div class="meal-grid">
-    <div class="meal-card lunch"><a href="https://andrassyhotel.com/en/restaurant/" target="_blank">Andrássy Garden</a><div class="detail">Andrássy út 111 · Seasonal Hungarian and international cuisine near Heroes' Square. Midday lunch menu weekdays.</div><div class="price">~€18–28pp</div></div>
-    <div class="meal-card lunch"><a href="https://nyeregbistro.hu/" target="_blank">Nyereg Bistro</a><div class="detail">Állatkerti körút 2 · Casual bistro between Heroes' Square and Széchenyi Baths. Hungarian comfort food.</div><div class="price">~€12–20pp</div></div>
-    <div class="meal-card lunch"><div class="plain-name">Liszt Ferenc Square terraces</div><div class="detail">Halfway down Andrássy — the entire square is lined with restaurant terraces. Perfect for a September lunch in the sun.</div></div>
-  </div>
-  <div class="sub-label">Activity Options</div>
-  <ul class="options">
-    <li><strong><a href="https://www.szechenyibath.hu/en/" target="_blank">Széchenyi Thermal Bath</a></strong> — Budapest's largest outdoor thermal bath. Three outdoor pools, indoor pools, saunas. Magical in September sunshine. ~€30–40pp with locker. Book online.</li>
-    <li><strong><a href="https://www.mfab.hu/en/" target="_blank">Heroes' Square + Museum of Fine Arts</a></strong> — The grand millennial monument to Hungarian history + the neoclassical Museum of Fine Arts. Museum ~€4pp; square is free.</li>
-    <li><strong><a href="https://www.terrorhaza.hu/en/" target="_blank">House of Terror Museum</a></strong> — Andrássy út 60 · Sobering museum inside the building where both Nazi and Soviet regimes operated. ~€8pp.</li>
-  </ul>
-</div>
-
-<div class="time-block">
-  <div class="time-label">🌙 Evening Options — Ruin Bars &amp; Beyond</div>
-  <div class="meal-grid">
-    <div class="meal-card evening"><a href="https://www.szimpla.hu/" target="_blank">Szimpla Kert</a><div class="detail">Kazinczy u. 14 · Budapest's original and most iconic ruin bar — labyrinthine, mismatched furniture, murals, craft beer. Wednesday evenings are ideal. Best after 9 PM.</div></div>
-    <div class="meal-card evening"><a href="https://instantfogas.hu/" target="_blank">Instant-Fogas</a><div class="detail">Akácfa u. 49–51 · The largest ruin bar complex in Budapest — multiple bars, DJs, rooftop terrace. More of a club than Szimpla, better for dancing.</div></div>
-    <div class="meal-card evening"><div class="plain-name">Corvintető rooftop bar</div><div class="detail">Blaha Lujza tér 1–2 · Open-air rooftop on a former Soviet-era department store. Sweeping Budapest views, younger local crowd, relaxed atmosphere.</div></div>
-  </div>
-  <div class="sub-label">🍽️ Dinner Options (Jewish Quarter, District VII)</div>
-  <div class="meal-grid">
-    <div class="meal-card dinner"><a href="https://www.mazeltov.hu/en/" target="_blank">Mazel Tov</a><div class="detail">Akácfa u. 47 · Mediterranean food in a stunning indoor garden courtyard. Live music nightly. Half ruin bar, half restaurant.</div><div class="price">~€18–30pp</div></div>
-    <div class="meal-card dinner"><a href="https://www.kolevesvendeglo.hu/en/" target="_blank">Köleves</a><div class="detail">Kazinczy u. 41 · Beloved bistro blending Hungarian and Jewish culinary traditions. Hearty, soulful, unpretentious.</div><div class="price">~€14–22pp</div></div>
-    <div class="meal-card dinner"><a href="https://www.idabistro.hu/" target="_blank">Ida Bistro</a><div class="detail">Wesselényi u. 18 · 4.9/5 rating. Creative Central European dishes, excellent vegetarian options, warm atmosphere.</div><div class="price">~€16–25pp</div></div>
-  </div>
-</div>
-
-<hr>
-
-<!-- DAY 6 -->
-<div class="day-header">Day 6 &nbsp;·&nbsp; Thursday, Sep 10 &nbsp;|&nbsp; Budapest Morning → Vienna → Flight</div>
-
-<div class="time-block">
-  <div class="time-label">🌅 Morning (8–11 AM) — Great Market Hall &amp; Jewish Quarter</div>
-  <div class="sub-label">🥐 Breakfast Options</div>
-  <div class="meal-grid">
-    <div class="meal-card breakfast"><a href="https://www.gerbeaud.hu/en/" target="_blank">Gerbeaud Café</a><div class="detail">Vörösmarty tér 7 · One last Hungarian breakfast before the train.</div><div class="price">~€12–18pp</div></div>
-    <div class="meal-card breakfast"><a href="https://www.vinylandwood.com/" target="_blank">Vinyl &amp; Wood</a><div class="detail">Dob u. 29, District VII · Excellent eggs benedict, Cubano toast, great coffee. Good en route to the market.</div><div class="price">~€10–15pp</div></div>
-    <div class="meal-card breakfast"><a href="https://www.facebook.com/kaptafabp/" target="_blank">Kaptafa Café</a><div class="detail">Akácfa u. 15, District VII · Quaint, hip café. Modern breakfast classics. Great for a relaxed last morning.</div><div class="price">~€8–13pp</div></div>
-  </div>
-  <div class="sub-label">Activity Options — Final Budapest Morning</div>
-  <ul class="options">
-    <li><strong><a href="https://www.piaconline.hu/en/" target="_blank">Great Market Hall</a></strong> — Vámház krt. 1–3, 5 min from Marriott · Grand 19th-century covered market. Ground floor: paprika, salami, Tokaji wine. Upper floor: embroidery and folk crafts. Open 6 AM–5 PM Mon–Fri.</li>
-    <li><strong>Jewish Quarter wander</strong> — Kazinczy u. and Kertész u. — street art, design shops, delis. Visit the Great Synagogue (Dohány u. 2, Europe's largest, ~€14pp).</li>
-    <li><strong>Final riverside walk + bridge crossing</strong> — Walk south along the Danube, cross the Elizabeth Bridge on foot, return via the Chain Bridge. Great views of Castle Hill from mid-bridge.</li>
-  </ul>
-</div>
-
-<div class="travel-block">
-  <strong>🚆 Travel: Budapest → Vienna (12:00 PM – 2:30 PM)</strong>
-  <p>Head to Budapest-Keleti station (~15 min by taxi/Uber from Marriott, ~€8). Midday Railjet back to Vienna, arriving Wien Hauptbahnhof ~2:30 PM. Store bags in station lockers (€4–5) and spend the afternoon in Vienna before the flight.</p>
-</div>
-
-<div class="time-block">
-  <div class="time-label">🏙️ Afternoon (3–7:30 PM) — Final Vienna Hours</div>
-  <ul class="options">
-    <li><strong><a href="https://www.cafecentral.wien/en/" target="_blank">Café Central or Demel</a></strong> — A final Melange and Sachertorte — the best possible way to say goodbye to Vienna.</li>
-    <li><strong><a href="https://www.wienernaschmarkt.eu/" target="_blank">Naschmarkt</a></strong> — Open until 6 PM on weekdays. Pick up Austrian wine, cheese, or chocolates for home.</li>
-    <li><strong>MuseumsQuartier courtyard</strong> — Grab a coffee, sit in the courtyard, soak in the atmosphere. A low-key final September afternoon.</li>
-  </ul>
-</div>
-
-<div class="travel-block">
-  <strong>✈️ Airport — depart by 8:30 PM for 11 PM flight</strong>
-  <p>Take the City Airport Train (CAT) from Wien Mitte (~20 min, €14) or S-Bahn S7 (~30 min, €4). Wien Mitte is a 15-min walk from the 1st district or take the U3. Allow at least 2 hours before departure.</p>
-</div>
-
-<div class="footer">
-  Safe travels! &nbsp;·&nbsp; Gute Reise! &nbsp;·&nbsp; Jó utat! 🇦🇹 🇭🇺
-</div>
-
-</div><!-- /container -->
-</body>
-</html>
+    <div class="meal-card lunch"><a href="https://andrassyhotel.com/en/restaurant/" target="_blank">Andrássy Garden</a><div class="detail">Andrássy út 111 · Seasonal Hungarian and international cuisine near Heroes' Square. Midday 
