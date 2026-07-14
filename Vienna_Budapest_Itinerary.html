@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vienna & Budapest Travel Itinerary — September 2026</title>
+<style>
+  :root {
+    --navy: #1F3864;
+    --blue: #2E75B6;
+    --gold: #C9A227;
+    --gray: #404040;
+    --lgray: #F5F5F5;
+    --mgray: #DDDDDD;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #333; background: #fff; line-height: 1.6; }
+
+  /* Print */
+  @media print {
+    .no-print { display: none; }
+    body { font-size: 11px; }
+    .day-header { page-break-before: always; }
+    .day-header:first-of-type { page-break-before: avoid; }
+    a { color: var(--blue); text-decoration: none; }
+  }
+
+  /* Layout */
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 32px; }
+
+  /* Cover */
+  .cover { text-align: center; padding: 80px 0 60px; border-bottom: 3px solid var(--navy); margin-bottom: 48px; }
+  .cover h1 { font-size: 48px; color: var(--navy); font-weight: 700; letter-spacing: -1px; margin-bottom: 10px; }
+  .cover .subtitle { font-size: 20px; color: var(--blue); margin-bottom: 6px; }
+  .cover .hotels { font-size: 15px; color: var(--gray); margin-top: 16px; font-style: italic; }
+  .flag { font-size: 36px; margin-bottom: 12px; }
+
+  /* Section headers */
+  .section-title { background: var(--navy); color: white; padding: 10px 16px; font-size: 18px; font-weight: 700; margin: 40px 0 20px; border-radius: 4px; }
+
+  /* Day headers */
+  .day-header { background: var(--navy); color: white; padding: 12px 18px; font-size: 17px; font-weight: 700; margin: 48px 0 20px; border-radius: 4px; }
+
+  /* Time block */
+  .time-block { margin: 24px 0; }
+  .time-label { font-size: 16px; font-weight: 700; color: var(--navy); border-bottom: 2px solid var(--blue); padding-bottom: 4px; margin-bottom: 12px; }
+  .travel-block { background: #EEF4FA; border-left: 4px solid var(--blue); padding: 12px 16px; border-radius: 0 4px 4px 0; margin: 16px 0; }
+  .travel-block p { color: var(--gray); }
+
+  /* Sub-labels */
+  .sub-label { font-size: 13px; font-weight: 700; color: var(--gray); font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; margin: 14px 0 6px; }
+
+  /* Options lists */
+  ul.options { list-style: none; padding: 0; margin: 0 0 12px 0; }
+  ul.options li { padding: 6px 0 6px 20px; position: relative; border-bottom: 1px solid #f0f0f0; }
+  ul.options li:last-child { border-bottom: none; }
+  ul.options li::before { content: "•"; color: var(--blue); font-size: 16px; position: absolute; left: 4px; top: 5px; }
+  ul.options li strong { color: var(--navy); }
+  ul.options li a { color: var(--blue); text-decoration: none; font-weight: 600; }
+  ul.options li a:hover { text-decoration: underline; }
+
+  /* Meal cards */
+  .meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 16px; }
+  @media (max-width: 700px) { .meal-grid { grid-template-columns: 1fr; } }
+  .meal-card { background: var(--lgray); border-radius: 6px; padding: 12px 14px; border-top: 3px solid var(--blue); }
+  .meal-card.breakfast { border-top-color: #E07B39; }
+  .meal-card.lunch { border-top-color: #3D9970; }
+  .meal-card.dinner { border-top-color: var(--navy); }
+  .meal-card.evening { border-top-color: #6B3FA0; }
+  .meal-card a { color: var(--navy); font-weight: 700; text-decoration: none; font-size: 14px; }
+  .meal-card a:hover { text-decoration: underline; }
+  .meal-card .plain-name { color: var(--navy); font-weight: 700; font-size: 14px; }
+  .meal-card .detail { font-size: 12px; color: #555; margin-top: 4px; line-height: 1.4; }
+  .meal-card .price { font-size: 12px; color: var(--blue); font-weight: 600; margin-top: 4px; }
+
+  /* Overview table */
+  .overview-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .overview-table th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; font-size: 13px; }
+  .overview-table td { padding: 9px 14px; font-size: 13px; border-bottom: 1px solid var(--mgray); }
+  .overview-table tr:nth-child(even) td { background: var(--lgray); }
+
+  /* Phrases table */
+  .phrases-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .phrases-table th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; font-size: 13px; }
+  .phrases-table td { padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--mgray); }
+  .phrases-table tr:nth-child(even) td { background: var(--lgray); }
+  .phrases-table .hungarian { font-weight: 700; color: var(--navy); }
+  .phrases-table .pronunc { color: var(--blue); font-style: italic; }
+
+  /* Body text */
+  p { margin: 10px 0; color: #333; }
+  .italic { font-style: italic; color: #666; font-size: 13px; }
+  .note { background: #FFF8E7; border-left: 4px solid var(--gold); padding: 10px 14px; border-radius: 0 4px 4px 0; margin: 12px 0; font-size: 13px; }
+
+  /* Hotel cards */
+  .hotel-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  @media (max-width: 600px) { .hotel-cards { grid-template-columns: 1fr; } }
+  .hotel-card { border: 1px solid var(--mgray); border-radius: 8px; padding: 16px; border-top: 4px solid var(--navy); }
+  .hotel-card h3 { font-size: 15px; color: var(--navy); margin-bottom: 6px; }
+  .hotel-card h3 a { color: var(--navy); text-decoration: none; }
+  .hotel-card h3 a:hover { text-decoration: underline; }
+  .hotel-card .detail { font-size: 12px; color: #555; line-height: 1.6; }
+  .hotel-card .price { font-size: 13px; color: var(--blue); font-weight: 600; margin-top: 6px; }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid var(--mgray); margin: 32px 0; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 40px 0 20px; color: var(--navy); font-size: 16px; font-weight: 700; border-top: 2px solid var(--navy); margin-top: 48px; }
+
+  /* Print button */
+  .print-btn { position: fixed; top: 20px; right: 20px; background: var(--navy); color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; z-index: 100; }
+  .print-btn:hover { background: var(--blue); }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+
+<div class="container">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="flag">🇦🇹 &nbsp; 🇭🇺</div>
+  <h1>Vienna &amp; Budapest</h1>
+  <div class="subtitle">Travel Itinerary &nbsp;·&nbsp; September 5–10, 2026</div>
+  <div class="hotels">Le Méridien Vienna &nbsp;·&nbsp; Budapest Marriott Hotel</div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="section-title">Trip Overview</div>
+
+<div class="hotel-cards">
+  <div class="hotel-card">
+    <h3><a href="https://www.marriott.com/en-us/hotels/viemh-le-meridien-vienna/overview/" target="_blank">Le Méridien Vienna</a></h3>
+    <div class="detail">Robert-Stolz-Platz 1, 1st District<br>Nights: Sep 5–8</div>
+    <div class="price">~$213–425/night &nbsp;·&nbsp; 8.6/10</div>
+  </div>
+  <div class="hotel-card">
+    <h3><a href="https://www.marriott.com/en-us/hotels/budhu-budapest-marriott-hotel/overview/" target="_blank">Budapest Marriott Hotel</a></h3>
+    <div class="detail">Apáczai Csere János u. 4, District V<br>Nights: Sep 8–10</div>
+    <div class="price">~$195–304/night &nbsp;·&nbsp; 9.0/10</div>
+  </div>
+</div>
+
+<h3 style="color:var(--navy);margin:24px 0 12px;font-size:16px;">Getting Between Cities</h3>
+<p>Vienna and Budapest are connected by the <strong>Railjet high-speed train</strong> — a 2.5-hour scenic journey. Trains depart Wien Hauptbahnhof and arrive at Budapest-Keleti. Book at <a href="https://www.oebb.at/en/" target="_blank" style="color:var(--blue)">oebb.at</a> or <a href="https://regiojet.com" target="_blank" style="color:var(--blue)">regiojet.com</a> — aim for 2–3 weeks ahead (~€30–50pp).</p>
+<ul class="options" style="margin-top:10px;">
+  <li><strong>Le Méridien → Wien Hbf:</strong> 15 min walk or U1 from Stephansplatz (2 stops)</li>
+  <li><strong>Budapest-Keleti → Marriott:</strong> 15 min by taxi or Uber (~€8)</li>
+  <li><strong>Vienna Airport:</strong> City Airport Train/CAT (16 min, €14) or Airport Bus (30 min, €9)</li>
+  <li><strong>Budapest Airport:</strong> Official taxi or Bolt/Uber (~€25–35 to city center — no metro link)</li>
+</ul>
+
+<h3 style="color:var(--navy);margin:24px 0 12px;font-size:16px;">At a Glance</h3>
+<table class="overview-table">
+  <thead><tr><th>Date</th><th>Plan</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Sat, Sep 5</strong></td><td>Land 4:45 AM → Le Méridien Vienna · Rest + gentle afternoon</td></tr>
+    <tr><td><strong>Sun, Sep 6</strong></td><td>Vienna: Hofburg + Kunsthistorisches Museum</td></tr>
+    <tr><td><strong>Mon, Sep 7</strong></td><td>Vienna: Schönbrunn Palace + Upper Belvedere</td></tr>
+    <tr><td><strong>Tue, Sep 8</strong></td><td>Morning Vienna → Railjet to Budapest · Castle Hill afternoon</td></tr>
+    <tr><td><strong>Wed, Sep 9</strong></td><td>Budapest: Parliament · Andrássy · Széchenyi Baths · Jewish Quarter</td></tr>
+    <tr><td><strong>Thu, Sep 10</strong></td><td>Budapest morning → Railjet back to Vienna · 11 PM flight</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- VIENNA FOOD & CULTURE -->
+<div class="section-title">🇦🇹 Vienna: Food, Culture &amp; What to Expect</div>
+
+<div class="time-block">
+  <div class="time-label">The Cuisine</div>
+  <p>Viennese cuisine is Central European comfort food elevated to an art form — hearty, rich, and built around centuries of imperial tradition. The city sits at the crossroads of Austrian, Hungarian, Czech, and Italian influences, a legacy of the Habsburg Empire. Don't expect farm-to-table minimalism; expect butter, cream, veal, and pastry done with extraordinary care.</p>
+</div>
+
+<div class="time-block">
+  <div class="time-label">Must-Have Dishes</div>
+  <ul class="options">
+    <li><strong>Wiener Schnitzel</strong> — The one non-negotiable. Made from veal (not pork), pounded thin, breaded, and pan-fried in clarified butter until golden. Served with lemon and lingonberry jam, it should arrive slightly larger than the plate. Figlmüller and Plachuttas are the canonical spots.</li>
+    <li><strong>Tafelspitz</strong> — Boiled beef served in its own broth with apple-horseradish sauce, roasted potatoes, and chives — Emperor Franz Joseph's favorite meal. It sounds plain and tastes extraordinary.</li>
+    <li><strong>Gulasch</strong> — In Vienna, a paprika-rich beef stew served with bread dumplings (Semmelknödel). The Gulaschmuseum serves 15 varieties.</li>
+    <li><strong>Kaiserschmarrn</strong> — A shredded, caramelized pancake dessert dusted with powdered sugar and served with plum compote. Order it at any coffee house.</li>
+    <li><strong>Sachertorte</strong> — Dense chocolate cake layered with apricot jam. The debate between Hotel Sacher and Demel over who makes the "original" has run since 1876. Try both.</li>
+    <li><strong>The Viennese Coffee House</strong> — UNESCO-listed cultural heritage. A <em>Melange</em> is the standard: espresso topped with steamed milk and foam. Sit as long as you like — no one will rush you. A glass of water comes with every coffee, unprompted.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">What Americans Should Know</div>
+  <ul class="options">
+    <li><strong>Tipping:</strong> Round up or add 5–10%. Tell the server the total you want to pay — don't leave cash on the table. Twenty percent will seem excessive.</li>
+    <li><strong>Dinner timing:</strong> Restaurants don't get going until 7–7:30 PM. Showing up at 5:30 PM may find you a mostly empty room.</li>
+    <li><strong>Cash:</strong> Preferred at markets, smaller cafés, and traditional Gasthäuser. Keep €50–100 on hand.</li>
+    <li><strong>Water:</strong> Not free and not automatically brought to the table. Tap water (Leitungswasser) is safe — you can ask for it.</li>
+    <li><strong>Bread charges:</strong> Bread brought to the table is typically charged per piece. It'll appear on the bill.</li>
+    <li><strong>Sundays:</strong> The Naschmarkt, many shops, and some restaurants close on Sundays. Plan Day 2 around museums and coffee houses.</li>
+    <li><strong>Atmosphere:</strong> Noise levels in traditional Viennese restaurants are low and the atmosphere slightly formal. Not stuffy — just measured.</li>
+  </ul>
+</div>
+
+<hr>
+
+<!-- BUDAPEST FOOD & CULTURE -->
+<div class="section-title">🇭🇺 Budapest: Food, Culture &amp; What to Expect</div>
+
+<div class="time-block">
+  <div class="time-label">The Cuisine</div>
+  <p>Hungarian cuisine is one of Europe's most distinctive and underrated — bold, paprika-driven, and deeply influenced by the country's nomadic Central Asian roots, Ottoman occupation, and Habsburg period. It is a cuisine of contrasts: fiery and warming, but also delicate and complex. Budapest sits at its very best.</p>
+</div>
+
+<div class="time-block">
+  <div class="time-label">Must-Have Dishes</div>
+  <ul class="options">
+    <li><strong>Gulyás (Goulash)</strong> — The national dish — a paprika-rich beef and vegetable soup, not the thick stew most Americans know. Served with small pasta dumplings called <em>csipetke</em>.</li>
+    <li><strong>Lángos</strong> — Street food: deep-fried dough topped with sour cream and grated cheese. Find it at the Great Market Hall. Greasy, satisfying, completely worth it.</li>
+    <li><strong>Halászlé (Fisherman's Soup)</strong> — A spicy, intensely paprika-forward river fish soup. Scarlet red and not for the faint of heart.</li>
+    <li><strong>Pörkölt</strong> — The thick paprika meat stew most Americans think of as goulash. Usually pork, beef, or chicken, served with egg noodle dumplings (<em>nokedli</em>).</li>
+    <li><strong>Kürtőskalács (Chimney Cake)</strong> — Sweet yeast dough roasted on a spit and rolled in sugar. Get the plain cinnamon version — the Nutella-filled tourist versions are an abomination.</li>
+    <li><strong>Dobos Torte</strong> — Thin sponge cake layers with chocolate buttercream and a signature caramel top. Gerbeaud Café is the place to try it.</li>
+    <li><strong>Tokaji Wine</strong> — One of Europe's great sweet wines from northeastern Hungary. Aszú is the most prized version. Available everywhere and at the Great Market Hall.</li>
+    <li><strong>Unicum</strong> — A dark, bitter Hungarian herbal liqueur. Hungary's answer to Fernet, served as a digestif. Deeply polarizing. Worth trying once.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">What Americans Should Know</div>
+  <ul class="options">
+    <li><strong>Currency:</strong> Hungary uses the Hungarian Forint (HUF), not the Euro. Roughly 370–390 HUF to the dollar in 2026 — things feel very inexpensive compared to Vienna.</li>
+    <li><strong>ATMs &amp; Exchange:</strong> Avoid currency exchange kiosks near the Chain Bridge and Váci Utca — misleading rates and heavy fees. Use bank-branded ATMs.</li>
+    <li><strong>Tipping:</strong> 10–15% is standard and genuinely appreciated. Same convention: tell the server your total.</li>
+    <li><strong>Váci Utca:</strong> The main pedestrian street near the Marriott looks beautiful but is tourist-facing — overpriced restaurants and souvenir shops. Don't eat there.</li>
+    <li><strong>Thermal bath etiquette:</strong> Bring/rent a towel, bring flip-flops, bring a padlock for lockers. Swimwear required. Wednesday evenings at Széchenyi are far less crowded than weekends.</li>
+    <li><strong>English:</strong> Hungarian is unrelated to any Western European language, but English is widely spoken in tourist areas and restaurants — especially by anyone under 50.</li>
+    <li><strong>Ruin bars:</strong> Occupy abandoned buildings with mismatched furniture and art installations. Not just for drinking — great for atmosphere. Wednesday night is ideal.</li>
+    <li><strong>Sundays:</strong> Unlike Vienna, Budapest on Sunday is lively. Restaurants, ruin bars, and most attractions are open.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">Essential Hungarian Phrases</div>
+  <p class="italic" style="margin-bottom:12px;">Hungarian (Magyar) is famously difficult, but a few words go a long way. Locals genuinely appreciate any attempt.</p>
+  <table class="phrases-table">
+    <thead><tr><th>Hungarian</th><th>Pronunciation</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td class="hungarian">Szia</td><td class="pronunc">SEE-ya</td><td>Hi / Hello (informal)</td></tr>
+      <tr><td class="hungarian">Jó reggelt</td><td class="pronunc">YO REH-gelt</td><td>Good morning</td></tr>
+      <tr><td class="hungarian">Jó estét</td><td class="pronunc">YO ESH-tet</td><td>Good evening</td></tr>
+      <tr><td class="hungarian">Kérem</td><td class="pronunc">KAY-rem</td><td>Please</td></tr>
+      <tr><td class="hungarian">Köszönöm</td><td class="pronunc">KUH-suh-nuhm</td><td>Thank you</td></tr>
+      <tr><td class="hungarian">Szívesen</td><td class="pronunc">SEE-veh-shen</td><td>You're welcome</td></tr>
+      <tr><td class="hungarian">Igen</td><td class="pronunc">EE-gen</td><td>Yes</td></tr>
+      <tr><td class="hungarian">Nem</td><td class="pronunc">nem</td><td>No</td></tr>
+      <tr><td class="hungarian">Elnézést</td><td class="pronunc">EL-nay-zesht</td><td>Excuse me / Sorry</td></tr>
+      <tr><td class="hungarian">Beszél angolul?</td><td class="pronunc">BEH-sayl ON-go-lool?</td><td>Do you speak English?</td></tr>
+      <tr><td class="hungarian">Nem értem</td><td class="pronunc">nem AIR-tem</td><td>I don't understand</td></tr>
+      <tr><td class="hungarian">Mennyibe kerül?</td><td class="pronunc">MEN-yee-beh KEH-rool?</td><td>How much does it cost?</td></tr>
+      <tr><td class="hungarian">A számlát kérem</td><td class="pronunc">ah SAHM-laht KAY-rem</td><td>The bill, please</td></tr>
+      <tr><td class="hungarian">Víz</td><td class="pronunc">veez</td><td>Water</td></tr>
+      <tr><td class="hungarian">Sör</td><td class="pronunc">shur</td><td>Beer</td></tr>
+      <tr><td class="hungarian">Bor</td><td class="pronunc">bore</td><td>Wine</td></tr>
+      <tr><td class="hungarian">Egészségedre!</td><td class="pronunc">EH-gays-shay-ged-reh!</td><td>Cheers! (also "bless you")</td></tr>
+      <tr><td class="hungarian">Finom</td><td class="pronunc">FEE-nom</td><td>Delicious</td></tr>
+      <tr><td class="hungarian">Hol van...?</td><td class="pronunc">hole von...?</td><td>Where is...?</td></tr>
+      <tr><td class="hungarian">Mosdó / WC</td><td class="pronunc">MOSH-doh / vay-tsay</td><td>Restroom / Toilet</td></tr>
+      <tr><td class="hungarian">Segítség!</td><td class="pronunc">SHEH-geet-shayg!</td><td>Help!</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- DAY 1 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="day-header">Day 1 &nbsp;·&nbsp; Saturday, Sep 5 &nbsp;|&nbsp; Arrival in Vienna</div>
+
+<div class="travel-block">
+  <strong>✈️ Travel: Land 4:45 AM → Le Méridien by ~7:30 AM</strong>
+  <p>Clear customs, collect bags, take the City Airport Train (CAT, 16 min, €14) or Airport Bus (30 min, €9). Drop bags at Le Méridien — the room likely won't be ready. Rest in the lobby or explore gently. This is a recovery day; don't over-schedule it.</p>
+</div>
+
+<div class="time-block">
+  <div class="time-label">🌅 Morning (9–11 AM) — Gentle Arrival</div>
+  <div class="italic">Choose one — all within 5 min walk of Le Méridien</div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong>Stroll the Graben &amp; Kohlmarkt</strong> — Vienna's elegant pedestrian streets lined with palaces and fountains. End at the Gothic Pestsäule (Plague Column). Free, leisurely pace.</li>
+    <li><strong>Stephansdom</strong> — Climb the south tower (€6) for rooftop views, or explore the Gothic interior. One of Europe's great cathedrals.</li>
+    <li><strong>Albertina Museum</strong> — Opens at 10 AM. Outstanding collection: Monet, Picasso, Dürer. €18.90, allow ~2 hrs.</li>
+  </ul>
+  <div class="sub-label">🥐 Breakfast Options</div>
+  <div class="meal-grid">
+    <div class="meal-card breakfast"><a href="https://www.cafecentral.wien/en/" target="_blank">Café Central</a><div class="detail">Herrengasse 14 · Quintessential Viennese coffee house. Melange, fresh rolls, eggs.</div><div class="price">~€15–20pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.demel.com/en/" target="_blank">Demel</a><div class="detail">Kohlmarkt 14 · Imperial patisserie since 1786. Breakfast pastries and boards.</div><div class="price">~€18–25pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.mottoamfluss.at/en/" target="_blank">Motto am Fluss</a><div class="detail">Franz-Josefs-Kai 2 · Airy glass café on the Danube Canal. Modern breakfast menu.</div><div class="price">~€15–20pp</div></div>
+  </div>
+</div>
+
+<div class="time-block">
+  <div class="time-label">☀️ Afternoon (1–5 PM) — Easy Sightseeing</div>
+  <div class="italic">Keep it light — jet lag is real on Day 1</div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong>Hofburg Palace exterior walk</strong> — Wander the vast complex and Heldenplatz without committing to a museum. Soak in the imperial scale. Free.</li>
+    <li><strong>Viennese coffee house crawl</strong> — Hours at Café Hawelka (since 1939) then Café Frauenhuber (Vienna's oldest, since 1788). Melange and a pastry. No agenda needed.</li>
+    <li><strong>Naschmarkt browse (Mon–Sat)</strong> — Vienna's famous open-air market. Cheeses, meats, olives. Open until 6 PM. Perfect for grazing.</li>
+  </ul>
+  <div class="sub-label">🥗 Lunch Options</div>
+  <div class="meal-grid">
+    <div class="meal-card lunch"><a href="https://www.doco.com/en/restaurants/do-co-vienna" target="_blank">DO &amp; CO Restaurant</a><div class="detail">Haas Haus, Stephansplatz 12 · Floor-to-ceiling views of Stephansdom. International menu.</div><div class="price">~€30–40pp</div></div>
+    <div class="meal-card lunch"><a href="https://www.cafe-hofburg.at/en/" target="_blank">Café Hofburg</a><div class="detail">Michaelerkuppel 1 · Classic Viennese cuisine inside the Hofburg. Tafelspitz, schnitzel, cakes.</div><div class="price">~€25–35pp</div></div>
+    <div class="meal-card lunch"><div class="plain-name">Gasthaus Pöschl</div><div class="detail">Weihburggasse 17 · No-frills traditional Austrian tavern. Goulash, roast pork, dumplings.</div><div class="price">~€15–22pp</div></div>
+  </div>
+  <div class="sub-label">🍽️ Dinner Options</div>
+  <div class="meal-grid">
+    <div class="meal-card dinner"><a href="https://www.plachutta-oper.at/en/" target="_blank">Plachuttas Gasthaus zur Oper</a><div class="detail">Walfischgasse 5–7 · The definitive Wiener Schnitzel, across from the Opera House.</div><div class="price">~€30–45pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.figlmueller.at/en/" target="_blank">Figlmüller Bäckerstrasse</a><div class="detail">Bäckerstrasse 6 · Famous for enormous veal schnitzel. Vienna institution since 1905. Book ahead.</div><div class="price">~€25–35pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.zum-wohl.at/" target="_blank">Zum Wohl</a><div class="detail">Schultergasse 2 · Cozy Austrian wine bar with small plates and local wines. Great first evening.</div><div class="price">~€20–30pp</div></div>
+  </div>
+</div>
+
+<hr>
+
+<!-- DAY 2 -->
+<div class="day-header">Day 2 &nbsp;·&nbsp; Sunday, Sep 6 &nbsp;|&nbsp; Hofburg &amp; Kunsthistorisches Museum</div>
+
+<div class="time-block">
+  <div class="time-label">🌅 Morning (9 AM – 12:30 PM) — Hofburg Palace Complex</div>
+  <div class="sub-label">🥐 Breakfast Options</div>
+  <div class="meal-grid">
+    <div class="meal-card breakfast"><a href="https://www.cafecentral.wien/en/" target="_blank">Café Central</a><div class="detail">Herrengasse 14 · Hard to beat for a proper Viennese morning.</div><div class="price">~€15–20pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.vollpension.wien/en/" target="_blank">Vollpension Generationscafé</a><div class="detail">Schleifmühlgasse 16 · Run by retirees, serving homemade cakes and Viennese breakfast spreads.</div><div class="price">~€12–18pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.inigo.at/" target="_blank">Inigo Café</a><div class="detail">Bäckerstrasse 18 · Cozy courtyard café near Stephansdom. Excellent coffee and egg dishes.</div><div class="price">~€10–15pp</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong>Hofburg Imperial Apartments &amp; Treasury</strong> — Walk the state rooms of Franz Joseph and Sisi, then see the Habsburg crown jewels. Allow 2.5–3 hrs. Combo ticket ~€22pp.</li>
+    <li><strong>Spanish Riding School morning training</strong> — Watch Lipizzaner stallions train — more authentic than a full performance. ~€16pp. Book at srs.at.</li>
+    <li><strong>Kunstkammer Wien</strong> — Cellini's Salt Cellar, Bruegel's Tower of Babel, and extraordinary Renaissance curiosities. Opens at 10 AM. ~€21pp.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">☀️ Afternoon (1–5:30 PM) — Kunsthistorisches Museum</div>
+  <div class="sub-label">🥗 Lunch Options</div>
+  <div class="meal-grid">
+    <div class="meal-card lunch"><a href="https://www.khm.at/en/visit-us/cafe-restaurant/" target="_blank">Café Kunsthistorisches Museum</a><div class="detail">Maria-Theresien-Platz · Elegant café inside the museum under the great cupola.</div><div class="price">~€18–25pp</div></div>
+    <div class="meal-card lunch"><a href="https://www.cafecentral.wien/en/" target="_blank">Café Central</a><div class="detail">10-min walk from the KHM — ideal mid-museum fuel stop.</div><div class="price">~€15–20pp</div></div>
+    <div class="meal-card lunch"><a href="https://www.glacisbeisl.at/en/" target="_blank">Glacis Beisl</a><div class="detail">MuseumsQuartier, Breite Gasse 4 · Organic Austrian cuisine in the courtyard gardens. September terrace is beautiful.</div><div class="price">~€22–35pp</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong><a href="https://www.khm.at/en/" target="_blank">Kunsthistorisches Museum</a></strong> — Vermeer, Raphael, Caravaggio, Rubens. The building is as impressive as the art. Allow 2–3 hrs. €21pp.</li>
+    <li><strong>MuseumsQuartier</strong> — Leopold Museum (Schiele, Klimt), MUMOK (modern art). Mix and match. ~€14–16pp per museum.</li>
+    <li><strong>Burggarten &amp; Volksgarten walk</strong> — Free imperial gardens. Mozart statue, rose gardens. Peaceful afternoon alternative to more museums.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">🌙 Evening Options</div>
+  <div class="meal-grid">
+    <div class="meal-card evening"><a href="https://www.wiener-staatsoper.at/en/" target="_blank">Vienna State Opera</a><div class="detail">September opens the season. Standing room ~€10 from the side entrance, even for sold-out shows.</div></div>
+    <div class="meal-card evening"><div class="plain-name">Ringstrasse after dark</div><div class="detail">Walk the illuminated boulevard from the Opera past Parliament to the Rathaus. Neoclassical buildings glow at night. Free.</div></div>
+    <div class="meal-card evening"><a href="https://www.das-loft.at/en/" target="_blank">Das Loft rooftop bar</a><div class="detail">25hours Hotel, Lerchenfelder Str. 1–3 · Panoramic Vienna views, great cocktails.</div><div class="price">~€12–18 per drink</div></div>
+  </div>
+  <div class="sub-label">🍽️ Dinner Options</div>
+  <div class="meal-grid">
+    <div class="meal-card dinner"><a href="https://www.steirereck.at/en/" target="_blank">Steirereck im Stadtpark</a><div class="detail">Am Heumarkt 2A · One of Austria's very best restaurants. Book well ahead.</div><div class="price">~€80–120pp tasting menu</div></div>
+    <div class="meal-card dinner"><a href="https://www.gulaschmuseum.at/" target="_blank">Gulaschmuseum</a><div class="detail">Schulerstrasse 20 · Dedicated entirely to Goulash with 15+ varieties. Unpretentious, delicious.</div><div class="price">~€15–22pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.zum-wohl.at/" target="_blank">Zum Wohl</a><div class="detail">Schultergasse 2 · Perfect low-key Sunday evening wine bar dinner.</div><div class="price">~€20–30pp</div></div>
+  </div>
+</div>
+
+<hr>
+
+<!-- DAY 3 -->
+<div class="day-header">Day 3 &nbsp;·&nbsp; Monday, Sep 7 &nbsp;|&nbsp; Schönbrunn &amp; Belvedere</div>
+<div class="italic" style="margin:8px 0 16px;">Take U4 from Karlsplatz (10 min walk from Le Méridien) to Schönbrunn station — ~20 min total</div>
+
+<div class="time-block">
+  <div class="time-label">🌅 Morning (8:30 AM – 12 PM) — Schönbrunn Palace</div>
+  <div class="sub-label">🥐 Breakfast Options</div>
+  <div class="meal-grid">
+    <div class="meal-card breakfast"><a href="https://www.schoenbrunn.at/en/visitor-information/cafes-restaurants" target="_blank">Café Gloriette</a><div class="detail">Top of the palace gardens — former imperial breakfast room. Exceptional views over the palace and city.</div><div class="price">~€15–22pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.gerstner.at/" target="_blank">Gerstner K.u.K. Hofzuckerbäcker</a><div class="detail">Inside Schönbrunn grounds · Vienna's distinguished imperial patisserie. Open for breakfast.</div><div class="price">~€14–20pp</div></div>
+    <div class="meal-card breakfast"><div class="plain-name">Le Méridien hotel breakfast</div><div class="detail">If you prefer an early start at the hotel before heading to Schönbrunn.</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong>Grand Tour (40 rooms) + Gloriette walk</strong> — The full imperial experience with panoramic views over Vienna from the hilltop Gloriette. Allow 2.5–3 hrs. ~€26pp.</li>
+    <li><strong>Classic Tour (22 rooms) + gardens walk</strong> — Covers the essentials. ~€19pp. Walk up to the Gloriette for views.</li>
+    <li><strong>Gardens only</strong> — Free to enter and beautiful in September. Gloriette walk, Neptune Fountain, the historic maze.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">☀️ Afternoon (1:30–5:30 PM) — Upper Belvedere</div>
+  <div class="italic">Take U4 back toward center then tram to Belvedere (~30 min), or taxi direct (~15 min, ~€12)</div>
+  <div class="sub-label">🥗 Lunch Options</div>
+  <div class="meal-grid">
+    <div class="meal-card lunch"><a href="https://www.wienernaschmarkt.eu/" target="_blank">Naschmarkt</a><div class="detail">Linke Wienzeile · 15-min walk from Schönbrunn. Charcuterie, cheese, olives, fresh bread. Open Mon–Sat.</div><div class="price">~€10–15pp</div></div>
+    <div class="meal-card lunch"><div class="plain-name">Meixner's Gastwirtschaft</div><div class="detail">Buchengasse 64 · Old-school Viennese Gasthaus near Schönbrunn with excellent lunch specials.</div><div class="price">~€14–18pp</div></div>
+    <div class="meal-card lunch"><a href="https://www.belvedere.at/en/visit-us/cafe-restaurant" target="_blank">Café im Belvedere</a><div class="detail">On-site at the Belvedere. Good for a quick lunch before or after the gallery.</div><div class="price">~€18–25pp</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong><a href="https://www.belvedere.at/en/" target="_blank">Upper Belvedere</a></strong> — Home to Klimt's <em>The Kiss</em> and the finest collection of Austrian art outside the KHM. Baroque palace and formal gardens. ~€16pp.</li>
+    <li><strong>Lower Belvedere + Orangery</strong> — The Baroque Museum and temporary exhibitions, often less crowded. Same garden access. ~€14pp.</li>
+    <li><strong>Belvedere Gardens walk</strong> — Free to enter. Formal French gardens with fountains and views of both palaces. September afternoon light is gorgeous.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">🌙 Evening Options</div>
+  <div class="meal-grid">
+    <div class="meal-card evening"><a href="https://www.musikverein.at/en/" target="_blank">Musikverein</a><div class="detail">Musikvereinsplatz 1 · Home of the Vienna Philharmonic. Tickets from ~€30. The Goldener Saal is one of the most beautiful rooms on earth.</div></div>
+    <div class="meal-card evening"><div class="plain-name">Prater + Riesenrad at dusk</div><div class="detail">Vienna's historic amusement park. Ride the 1897 Ferris wheel (€14pp) at sunset. Stroll the tree-lined Hauptallee.</div></div>
+    <div class="meal-card evening"><div class="plain-name">Naschmarkt bar district</div><div class="detail">Schleifmühlgasse and Gumpendorfer Straße come alive on weekday evenings. Wine bars, craft beer, small plates. A genuinely local evening.</div></div>
+  </div>
+  <div class="sub-label">🍽️ Dinner Options</div>
+  <div class="meal-grid">
+    <div class="meal-card dinner"><a href="https://www.fabios.at/en/" target="_blank">Fabio's</a><div class="detail">Tuchlauben 4 · Vienna's best Italian restaurant. Upmarket, stylish, beloved by locals. Vitello tonnato, fresh pasta.</div><div class="price">~€35–50pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.plachutta-oper.at/en/" target="_blank">Plachuttas Gasthaus zur Oper</a><div class="detail">Walfischgasse 5–7 · Last chance in Vienna for the definitive Wiener Schnitzel.</div><div class="price">~€30–45pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.doco.com/en/restaurants/do-co-vienna" target="_blank">DO &amp; CO Restaurant</a><div class="detail">Haas Haus, Stephansplatz 12 · Spectacular Stephansdom views at dinner in evening light.</div><div class="price">~€35–50pp</div></div>
+  </div>
+</div>
+
+<hr>
+
+<!-- DAY 4 -->
+<div class="day-header">Day 4 &nbsp;·&nbsp; Tuesday, Sep 8 &nbsp;|&nbsp; Vienna → Budapest + Castle Hill</div>
+
+<div class="time-block">
+  <div class="time-label">🌅 Morning (7–9:30 AM) — Final Vienna Breakfast &amp; Checkout</div>
+  <div class="sub-label">🥐 Breakfast Options</div>
+  <div class="meal-grid">
+    <div class="meal-card breakfast"><a href="https://www.cafecentral.wien/en/" target="_blank">Café Central</a><div class="detail">A fitting farewell to Vienna's coffee house culture before heading to the train.</div><div class="price">~€15–20pp</div></div>
+    <div class="meal-card breakfast"><div class="plain-name">Le Méridien hotel breakfast</div><div class="detail">Convenient before ~10 AM checkout and the train to Budapest.</div></div>
+    <div class="meal-card breakfast"><a href="https://www.demel.com/en/" target="_blank">Demel</a><div class="detail">Kohlmarkt 14 · Pick up pastries and coffee to go if in a hurry for the station.</div><div class="price">~€10–15pp</div></div>
+  </div>
+</div>
+
+<div class="travel-block">
+  <strong>🚆 Travel: Vienna → Budapest (10 AM – 12:30 PM)</strong>
+  <p>Walk or Uber to Wien Hauptbahnhof (~15 min from hotel, or U1 from Stephansplatz). Railjet departs ~10:00 AM, arrives Budapest-Keleti ~12:30 PM. Modern, comfortable — enjoy the countryside. Book at <a href="https://www.oebb.at/en/" target="_blank" style="color:var(--blue)">oebb.at</a> or <a href="https://regiojet.com" target="_blank" style="color:var(--blue)">regiojet.com</a>.</p>
+</div>
+
+<div class="time-block">
+  <div class="time-label">☀️ Afternoon (1:30–6 PM) — Check In + Castle Hill</div>
+  <div class="italic">Check into the Budapest Marriott — request a Danube-view room. Walk across the Chain Bridge (10 min) to Castle Hill.</div>
+  <div class="sub-label">🥗 Lunch Options (Castle Hill)</div>
+  <div class="meal-grid">
+    <div class="meal-card lunch"><a href="https://baltazarbudapest.com/" target="_blank">Baltázár Restaurant</a><div class="detail">Országház u. 31 · Stylish bistro in a quieter part of Castle Hill. Hungarian classics and gourmet comfort food.</div><div class="price">~€18–28pp</div></div>
+    <div class="meal-card lunch"><a href="https://foglalas.halaszbastya.eu/en/" target="_blank">Halászbástya Restaurant</a><div class="detail">Inside the Fisherman's Bastion towers · Innovative Hungarian gastronomy with breathtaking Danube views.</div><div class="price">~€25–40pp</div></div>
+    <div class="meal-card lunch"><a href="https://budacastlebudapest.com/golden-bastion-restaurant-table-booking-buda-castle/" target="_blank">Aranybástya (Golden Bastion)</a><div class="detail">Traditional Hungarian and international cuisine with panoramic city views.</div><div class="price">~€20–35pp</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong>Fisherman's Bastion + Matthias Church</strong> — Neo-Gothic towers with wraparound terraces — one of the most photographed spots in Central Europe. Free to walk around; tower access ~€4pp.</li>
+    <li><strong>Buda Castle + Hungarian National Gallery</strong> — The palace complex houses a strong collection of Hungarian art. Allow 1.5–2 hrs. ~€8pp.</li>
+    <li><strong>Castle Hill village wander</strong> — Cobblestone streets and Tóth Árpád promenade along the western wall for quieter Danube views with fewer crowds.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">🌙 Evening Options</div>
+  <div class="meal-grid">
+    <div class="meal-card evening"><a href="https://www.legenda.hu/en/" target="_blank">Danube evening cruise</a><div class="detail">Budapest at night from the water — Parliament, Castle Hill, and all five bridges illuminated. Departs near the Marriott.</div><div class="price">~€20–30pp, 1 hr</div></div>
+    <div class="meal-card evening"><div class="plain-name">Liz &amp; Chain Rooftop Bar</div><div class="detail">9th floor, Budapest Marriott · Cocktails and Danube views from your own hotel. The easiest option after a travel day. Open until midnight.</div></div>
+    <div class="meal-card evening"><div class="plain-name">Chain Bridge walk + Castle Hill funicular</div><div class="detail">Walk the illuminated Chain Bridge, ride the historic funicular (Sikló, ~€7pp, runs until 10 PM) to the top, take in lit-up Pest from above.</div></div>
+  </div>
+  <div class="sub-label">🍽️ Dinner Options</div>
+  <div class="meal-grid">
+    <div class="meal-card dinner"><a href="https://www.onyxrestaurant.hu/en/" target="_blank">Onyx Restaurant</a><div class="detail">Vörösmarty tér 7 · Michelin-starred, 5-min walk from the Marriott. Book well ahead.</div><div class="price">~€60–90pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.marriott.com/en-us/hotels/budhu-budapest-marriott-hotel/dining/" target="_blank">DNB Budapest</a><div class="detail">At the Marriott · River-view restaurant with live music. Great for a first night when you don't want to venture far.</div><div class="price">~€25–40pp</div></div>
+    <div class="meal-card dinner"><a href="https://divinporcello.hu/" target="_blank">Divin Porcello</a><div class="detail">Régiposta u. 14, behind the Marriott · Local favorite, Italian-Hungarian, excellent pork dishes.</div><div class="price">~€18–28pp</div></div>
+  </div>
+</div>
+
+<hr>
+
+<!-- DAY 5 -->
+<div class="day-header">Day 5 &nbsp;·&nbsp; Wednesday, Sep 9 &nbsp;|&nbsp; Full Budapest</div>
+
+<div class="time-block">
+  <div class="time-label">🌅 Morning (8:30 AM – 12:30 PM) — Parliament &amp; Riverfront</div>
+  <div class="sub-label">🥐 Breakfast Options</div>
+  <div class="meal-grid">
+    <div class="meal-card breakfast"><a href="https://www.gerbeaud.hu/en/" target="_blank">Gerbeaud Café</a><div class="detail">Vörösmarty tér 7 · Budapest's most historic pastry house since 1858, 5 min from the Marriott. Kürtőskalács, rétes, exceptional coffee.</div><div class="price">~€12–18pp</div></div>
+    <div class="meal-card breakfast"><a href="https://newyorkcafe.hu/en/" target="_blank">New York Café</a><div class="detail">Erzsébet krt. 9–11 · The most opulent café in Budapest. Over-the-top gilded interior worth seeing once for the spectacle.</div><div class="price">~€15–25pp</div></div>
+    <div class="meal-card breakfast"><a href="https://cirkuszbistro.hu/" target="_blank">Cirkusz Café</a><div class="detail">Madách Imre út 2, District VII · Hip, relaxed. Roasts its own coffee, excellent brunch plates.</div><div class="price">~€10–16pp</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong><a href="https://www.parlament.hu/en/web/visitors" target="_blank">Hungarian Parliament Building</a></strong> — Book a guided tour in advance (~€26pp). Gold-leaf vaulted halls and the Holy Crown of Hungary. Allow 1–1.5 hrs.</li>
+    <li><strong>Riverfront Promenade Walk</strong> — Walk north along the Pest embankment past Parliament to Margaret Island. Stop at the Shoes on the Danube — a moving Holocaust memorial.</li>
+    <li><strong><a href="https://www.bazilika.biz/en" target="_blank">St. Stephen's Basilica</a></strong> — Budapest's largest church. Climb the dome for a 360° city view. Interior free; dome ~€8pp.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">☀️ Afternoon (1:30–6:30 PM) — Andrássy Avenue → Heroes' Square → Széchenyi Baths</div>
+  <div class="sub-label">🥗 Lunch Options</div>
+  <div class="meal-grid">
+    <div class="meal-card lunch"><a href="https://andrassyhotel.com/en/restaurant/" target="_blank">Andrássy Garden</a><div class="detail">Andrássy út 111 · Seasonal Hungarian and international cuisine near Heroes' Square. Midday lunch menu weekdays.</div><div class="price">~€18–28pp</div></div>
+    <div class="meal-card lunch"><a href="https://nyeregbistro.hu/" target="_blank">Nyereg Bistro</a><div class="detail">Állatkerti körút 2 · Casual bistro between Heroes' Square and Széchenyi Baths. Hungarian comfort food.</div><div class="price">~€12–20pp</div></div>
+    <div class="meal-card lunch"><div class="plain-name">Liszt Ferenc Square terraces</div><div class="detail">Halfway down Andrássy — the entire square is lined with restaurant terraces. Perfect for a September lunch in the sun.</div></div>
+  </div>
+  <div class="sub-label">Activity Options</div>
+  <ul class="options">
+    <li><strong><a href="https://www.szechenyibath.hu/en/" target="_blank">Széchenyi Thermal Bath</a></strong> — Budapest's largest outdoor thermal bath. Three outdoor pools, indoor pools, saunas. Magical in September sunshine. ~€30–40pp with locker. Book online.</li>
+    <li><strong><a href="https://www.mfab.hu/en/" target="_blank">Heroes' Square + Museum of Fine Arts</a></strong> — The grand millennial monument to Hungarian history + the neoclassical Museum of Fine Arts. Museum ~€4pp; square is free.</li>
+    <li><strong><a href="https://www.terrorhaza.hu/en/" target="_blank">House of Terror Museum</a></strong> — Andrássy út 60 · Sobering museum inside the building where both Nazi and Soviet regimes operated. ~€8pp.</li>
+  </ul>
+</div>
+
+<div class="time-block">
+  <div class="time-label">🌙 Evening Options — Ruin Bars &amp; Beyond</div>
+  <div class="meal-grid">
+    <div class="meal-card evening"><a href="https://www.szimpla.hu/" target="_blank">Szimpla Kert</a><div class="detail">Kazinczy u. 14 · Budapest's original and most iconic ruin bar — labyrinthine, mismatched furniture, murals, craft beer. Wednesday evenings are ideal. Best after 9 PM.</div></div>
+    <div class="meal-card evening"><a href="https://instantfogas.hu/" target="_blank">Instant-Fogas</a><div class="detail">Akácfa u. 49–51 · The largest ruin bar complex in Budapest — multiple bars, DJs, rooftop terrace. More of a club than Szimpla, better for dancing.</div></div>
+    <div class="meal-card evening"><div class="plain-name">Corvintető rooftop bar</div><div class="detail">Blaha Lujza tér 1–2 · Open-air rooftop on a former Soviet-era department store. Sweeping Budapest views, younger local crowd, relaxed atmosphere.</div></div>
+  </div>
+  <div class="sub-label">🍽️ Dinner Options (Jewish Quarter, District VII)</div>
+  <div class="meal-grid">
+    <div class="meal-card dinner"><a href="https://www.mazeltov.hu/en/" target="_blank">Mazel Tov</a><div class="detail">Akácfa u. 47 · Mediterranean food in a stunning indoor garden courtyard. Live music nightly. Half ruin bar, half restaurant.</div><div class="price">~€18–30pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.kolevesvendeglo.hu/en/" target="_blank">Köleves</a><div class="detail">Kazinczy u. 41 · Beloved bistro blending Hungarian and Jewish culinary traditions. Hearty, soulful, unpretentious.</div><div class="price">~€14–22pp</div></div>
+    <div class="meal-card dinner"><a href="https://www.idabistro.hu/" target="_blank">Ida Bistro</a><div class="detail">Wesselényi u. 18 · 4.9/5 rating. Creative Central European dishes, excellent vegetarian options, warm atmosphere.</div><div class="price">~€16–25pp</div></div>
+  </div>
+</div>
+
+<hr>
+
+<!-- DAY 6 -->
+<div class="day-header">Day 6 &nbsp;·&nbsp; Thursday, Sep 10 &nbsp;|&nbsp; Budapest Morning → Vienna → Flight</div>
+
+<div class="time-block">
+  <div class="time-label">🌅 Morning (8–11 AM) — Great Market Hall &amp; Jewish Quarter</div>
+  <div class="sub-label">🥐 Breakfast Options</div>
+  <div class="meal-grid">
+    <div class="meal-card breakfast"><a href="https://www.gerbeaud.hu/en/" target="_blank">Gerbeaud Café</a><div class="detail">Vörösmarty tér 7 · One last Hungarian breakfast before the train.</div><div class="price">~€12–18pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.vinylandwood.com/" target="_blank">Vinyl &amp; Wood</a><div class="detail">Dob u. 29, District VII · Excellent eggs benedict, Cubano toast, great coffee. Good en route to the market.</div><div class="price">~€10–15pp</div></div>
+    <div class="meal-card breakfast"><a href="https://www.facebook.com/kaptafabp/" target="_blank">Kaptafa Café</a><div class="detail">Akácfa u. 15, District VII · Quaint, hip café. Modern breakfast classics. Great for a relaxed last morning.</div><div class="price">~€8–13pp</div></div>
+  </div>
+  <div class="sub-label">Activity Options — Final Budapest Morning</div>
+  <ul class="options">
+    <li><strong><a href="https://www.piaconline.hu/en/" target="_blank">Great Market Hall</a></strong> — Vámház krt. 1–3, 5 min from Marriott · Grand 19th-century covered market. Ground floor: paprika, salami, Tokaji wine. Upper floor: embroidery and folk crafts. Open 6 AM–5 PM Mon–Fri.</li>
+    <li><strong>Jewish Quarter wander</strong> — Kazinczy u. and Kertész u. — street art, design shops, delis. Visit the Great Synagogue (Dohány u. 2, Europe's largest, ~€14pp).</li>
+    <li><strong>Final riverside walk + bridge crossing</strong> — Walk south along the Danube, cross the Elizabeth Bridge on foot, return via the Chain Bridge. Great views of Castle Hill from mid-bridge.</li>
+  </ul>
+</div>
+
+<div class="travel-block">
+  <strong>🚆 Travel: Budapest → Vienna (12:00 PM – 2:30 PM)</strong>
+  <p>Head to Budapest-Keleti station (~15 min by taxi/Uber from Marriott, ~€8). Midday Railjet back to Vienna, arriving Wien Hauptbahnhof ~2:30 PM. Store bags in station lockers (€4–5) and spend the afternoon in Vienna before the flight.</p>
+</div>
+
+<div class="time-block">
+  <div class="time-label">🏙️ Afternoon (3–7:30 PM) — Final Vienna Hours</div>
+  <ul class="options">
+    <li><strong><a href="https://www.cafecentral.wien/en/" target="_blank">Café Central or Demel</a></strong> — A final Melange and Sachertorte — the best possible way to say goodbye to Vienna.</li>
+    <li><strong><a href="https://www.wienernaschmarkt.eu/" target="_blank">Naschmarkt</a></strong> — Open until 6 PM on weekdays. Pick up Austrian wine, cheese, or chocolates for home.</li>
+    <li><strong>MuseumsQuartier courtyard</strong> — Grab a coffee, sit in the courtyard, soak in the atmosphere. A low-key final September afternoon.</li>
+  </ul>
+</div>
+
+<div class="travel-block">
+  <strong>✈️ Airport — depart by 8:30 PM for 11 PM flight</strong>
+  <p>Take the City Airport Train (CAT) from Wien Mitte (~20 min, €14) or S-Bahn S7 (~30 min, €4). Wien Mitte is a 15-min walk from the 1st district or take the U3. Allow at least 2 hours before departure.</p>
+</div>
+
+<div class="footer">
+  Safe travels! &nbsp;·&nbsp; Gute Reise! &nbsp;·&nbsp; Jó utat! 🇦🇹 🇭🇺
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
