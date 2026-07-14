@@ -194,9 +194,11 @@
   /* Footer */
   .footer { text-align: center; padding: 40px 0 20px; color: var(--navy); font-size: 16px; font-weight: 700; border-top: 2px solid var(--navy); margin-top: 48px; }
 
-  /* Print button */
+  /* Fixed buttons */
   .print-btn { position: fixed; top: 14px; right: 20px; background: var(--navy); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; z-index: 100; }
   .print-btn:hover { background: var(--blue); }
+  .tours-btn { position: fixed; top: 14px; right: 156px; background: var(--gold); color: var(--navy); border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; z-index: 100; text-decoration: none; display: inline-block; }
+  .tours-btn:hover { background: #b8911f; color: #fff; }
 </style>
 </head>
 <body>
@@ -207,6 +209,7 @@
 
 <!-- Print button -->
 <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+<a class="tours-btn no-print" href="tours.html">🗺️ Tours &amp; Experiences</a>
 
 <!-- ── Sidebar ─────────────────────────────────────────────────────────────── -->
 <aside class="sidebar no-print" id="sidebar">
@@ -663,10 +666,4 @@
   <ul class="options">
     <li><strong><a href="https://www.parlament.hu/en/web/visitors" target="_blank">Hungarian Parliament Building</a></strong> — Book a guided tour in advance (~€26pp). Gold-leaf vaulted halls and the Holy Crown of Hungary. Allow 1–1.5 hrs.</li>
     <li><strong>Riverfront Promenade Walk</strong> — Walk north along the Pest embankment past Parliament to Margaret Island. Stop at the Shoes on the Danube — a moving Holocaust memorial.</li>
-    <li><strong><a href="https://www.bazilika.biz/en" target="_blank">St. Stephen's Basilica</a></strong> — Budapest's largest church. Climb the dome for a 360° city view. Interior free; dome ~€8pp.</li>
-  </ul>
-</div>
-
-<div class="time-block" id="day5-afternoon">
-  <div class="time-label">☀️ Afternoon (1:30–6:30 PM) — Andrássy Avenue → Heroes' Square → Széchenyi Baths</div>
-  <div cla
+    <li><stro
