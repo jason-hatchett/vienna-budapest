@@ -97,11 +97,20 @@
     a { color: var(--blue); text-decoration: none; }
   }
 
+  /* Sidebar backdrop (mobile) */
+  .sidebar-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 190;
+  }
+  .sidebar-backdrop.open { display: block; }
+
   /* Mobile */
   @media (max-width: 768px) {
     .sidebar { transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .sidebar-toggle { display: flex; }
+    .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+    .sidebar-toggle { display: flex !important; }
     .main { margin-left: 0; }
     .container { padding: 56px 20px 20px; }
   }
@@ -193,7 +202,8 @@
 <body>
 
 <!-- Sidebar toggle (mobile) -->
-<button class="sidebar-toggle no-print" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle navigation">☰</button>
+<button class="sidebar-toggle no-print" id="sidebarToggle" title="Toggle navigation">☰</button>
+<div class="sidebar-backdrop no-print" id="sidebarBackdrop"></div>
 
 <!-- Print button -->
 <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save PDF</button>
@@ -659,6 +669,4 @@
 
 <div class="time-block" id="day5-afternoon">
   <div class="time-label">☀️ Afternoon (1:30–6:30 PM) — Andrássy Avenue → Heroes' Square → Széchenyi Baths</div>
-  <div class="sub-label">🥗 Lunch Options</div>
-  <div class="meal-grid">
-    <div class="meal-card lunch"><a href="https://andrassyhotel.com/en/restaurant/" target="_blank">Andrássy Garden</a><div class="detail">Andrássy út 111 · Seasonal Hungarian and international cuisine near Heroes' Square. Midday 
+  <div cla
