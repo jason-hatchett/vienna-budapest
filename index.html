@@ -167,6 +167,17 @@
   .dc-resv.need { color: #B4560E; }
   .dc-need { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: #B4560E; background: #FBE7D3; border-radius: 3px; padding: 1px 5px; margin-left: 6px; white-space: nowrap; }
   @media print { .dc-pin { display: none; } }
+
+  /* Map / reserve / book-ahead links on listed options */
+  .opt-links { display: inline-block; margin-top: 5px; font-size: 11px; line-height: 1.5; }
+  .meal-card .opt-links { display: block; margin-top: 8px; padding-top: 6px; border-top: 1px solid #e8e8e8; }
+  .opt-links a { text-decoration: none; font-weight: 600; }
+  .opt-map { color: #666; }
+  .opt-map:hover { text-decoration: underline; }
+  .opt-book-link { color: var(--blue); margin-left: 10px; }
+  .opt-book-link:hover { text-decoration: underline; }
+  .opt-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: #B4560E; background: #FBE7D3; border-radius: 3px; padding: 1px 6px; margin-left: 10px; }
+  @media print { .opt-map, .opt-book-link { color: #333; } }
   @media print {
     .daycal-toggle { display: none; }
     .daycal-track { display: block !important; }
@@ -1016,16 +1027,13 @@
       }
     };
 
-    function mapsUrl(q) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); }
     function rowHtml(r) {
       var type = r[3] || '';
       var cls = type === 't' ? ' travel' : type === 'm' ? ' meal' : type === 'r' ? ' rest' : '';
-      var label = (type === 'm' ? '🍽 ' : '') + r[1];
+      var base = (type === 'm') ? r[1].split('·')[0].trim() : r[1];
+      var label = (type === 'm' ? '🍽 ' : '') + base;
       var cost = r[2] ? ' <span class="dc-cost">' + r[2] + '</span>' : '';
-      var pin = r[4] ? ' <a class="dc-pin" href="' + mapsUrl(r[4]) + '" target="_blank" rel="noopener" title="Open in Google Maps">📍</a>' : '';
-      var need = r[6] ? ' <span class="dc-need">book ahead</span>' : '';
-      var resv = r[5] ? ' <a class="dc-resv' + (r[6] ? ' need' : '') + '" href="' + r[5] + '" target="_blank" rel="noopener">reserve ↗</a>' : '';
-      return '<div class="dc-row' + cls + '"><span class="dc-time">' + r[0] + '</span><span class="dc-item">' + label + cost + pin + need + resv + '</span></div>';
+      return '<div class="dc-row' + cls + '"><span class="dc-time">' + r[0] + '</span><span class="dc-item">' + label + cost + '</span></div>';
     }
     function trackHtml(track, items, active, label) {
       return '<div class="daycal-track' + (active ? ' active' : '') + '" data-track="' + track + '"><div class="dc-track-label">' + label + '</div>' + items.map(rowHtml).join('') + '</div>';
@@ -1050,6 +1058,79 @@
         });
       });
     });
+  })();
+
+  // Map / reserve / book-ahead links on every listed option (meal cards + activity lists)
+  (function () {
+    function mapsUrl(q) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); }
+    var DAY_CITY = { day1: 'Vienna', day2: 'Vienna', day3: 'Vienna', day4: 'Budapest', day5: 'Budapest', day6: 'Vienna' };
+
+    // Popular / reservation-required — gets a "book ahead" badge (match on the option's name, lowercased)
+    var BOOK = ['do & co', 'plachutta', 'figlmüller', 'figlmuller', 'vollpension', 'glacis beisl', 'steirereck', 'motto am fluss', 'fabio', 'new york', 'baltázár', 'baltazar', 'halászbástya', 'halaszbastya', 'aranybástya', 'aranybastya', 'onyx', 'divin porcello', 'mazel tov', 'getto guly', 'grand tour', 'classic tour', 'spanish riding', 'hungarian parliament', 'parliament building', 'musikverein'];
+    // Takes reservations / needs tickets — gets a reserve or tickets link (in addition to BOOK)
+    var RESV = BOOK.concat(['zum wohl', 'gulaschmuseum', 'café hofburg', 'cafe hofburg', 'menza', 'kiosk', 'robinson', 'dnb budapest', 'das loft', 'albertina', 'kunsthistorisches', 'kunstkammer', 'leopold', 'imperial apartments', 'treasury', 'upper belvedere', 'lower belvedere', 'st. stephen', 'basilica', 'széchenyi', 'szechenyi', 'legenda', 'danube evening cruise', 'riesenrad', 'light of creation', 'state opera']);
+    // Booking URL for reservable options that have no link of their own
+    var RES_URL = {
+      'hungarian parliament': 'https://www.parlament.hu/en/web/visitors', 'parliament building': 'https://www.parlament.hu/en/web/visitors',
+      'grand tour': 'https://www.schoenbrunn.at/en/', 'classic tour': 'https://www.schoenbrunn.at/en/', 'gardens only': 'https://www.schoenbrunn.at/en/',
+      'spanish riding': 'https://www.srs.at/en/', 'musikverein': 'https://www.musikverein.at/en/',
+      'imperial apartments': 'https://www.hofburg-wien.at/en/', 'treasury': 'https://www.hofburg-wien.at/en/', 'kunstkammer': 'https://www.khm.at/en/',
+      'albertina': 'https://www.albertina.at/en/', 'st. stephen': 'https://www.bazilika.biz/en', 'basilica': 'https://www.bazilika.biz/en',
+      'széchenyi': 'https://www.szechenyifurdo.hu/en', 'szechenyi': 'https://www.szechenyifurdo.hu/en', 'state opera': 'https://www.wiener-staatsoper.at/en/'
+    };
+    // Cleaner Google Maps query for action-worded options
+    var QMAP = {
+      'graben': 'Graben Vienna', 'coffee house crawl': 'Café Hawelka Vienna', 'coffeehouse': 'Café Hawelka Vienna',
+      'hofburg exterior': 'Hofburg Vienna', 'palace exterior': 'Hofburg Vienna', 'riverfront promenade': 'Shoes on the Danube Budapest',
+      'castle hill village': 'Buda Castle Budapest', 'andrássy avenue': 'Andrássy út Budapest', 'ringstrasse': 'Ringstrasse Vienna',
+      'burggarten': 'Burggarten Vienna', 'grand tour': 'Schönbrunn Palace Vienna', 'classic tour': 'Schönbrunn Palace Vienna',
+      'gardens only': 'Schönbrunn Gardens Vienna', 'belvedere gardens': 'Schloss Belvedere Vienna', 'chain bridge': 'Széchenyi Chain Bridge Budapest',
+      'naschmarkt bar': 'Naschmarkt Vienna', 'prater': 'Wiener Riesenrad Vienna', 'shoes on the danube': 'Shoes on the Danube Budapest',
+      'heroes': 'Heroes Square Budapest', 'fisherman': "Fisherman's Bastion Budapest"
+    };
+
+    function keyIn(nl, list) { for (var i = 0; i < list.length; i++) { if (nl.indexOf(list[i]) > -1) return list[i]; } return null; }
+    function valIn(nl, obj) { for (var k in obj) { if (nl.indexOf(k) > -1) return obj[k]; } return null; }
+
+    var anchors = ['day1', 'day2', 'day3', 'day4', 'day5', 'day6'].map(function (id) {
+      var n = document.getElementById(id); return n ? { id: id, top: n.getBoundingClientRect().top + window.pageYOffset } : null;
+    }).filter(Boolean);
+    function absTop(id) { var n = document.getElementById(id); return n ? n.getBoundingClientRect().top + window.pageYOffset : Infinity; }
+    var t4 = absTop('day4-travel'), t6 = absTop('day6-travel');
+    function cityOf(el) {
+      var top = el.getBoundingClientRect().top + window.pageYOffset, base = 'day1';
+      anchors.forEach(function (a) { if (a.top <= top) base = a.id; });
+      if (base === 'day4') return top < t4 ? 'Vienna' : 'Budapest';
+      if (base === 'day6') return top < t6 ? 'Budapest' : 'Vienna';
+      return DAY_CITY[base] || 'Vienna';
+    }
+
+    function enhance(el, isCard) {
+      if (el.querySelector('.opt-links')) return;
+      var nameEl, href = '';
+      if (isCard) { nameEl = el.querySelector('a') || el.querySelector('.plain-name'); var a = el.querySelector('a'); if (a) href = a.href; }
+      else { var strong = el.querySelector('strong'); nameEl = strong || el; var a2 = el.querySelector('a'); if (a2) href = a2.href; }
+      if (!nameEl) return;
+      var name = (nameEl === el ? el.textContent.split('—')[0] : nameEl.textContent).replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
+      if (!name) return;
+      var nl = name.toLowerCase();
+      var q = valIn(nl, QMAP) || (name + ' ' + cityOf(el));
+      var book = !!keyIn(nl, BOOK);
+      var resvKey = keyIn(nl, RESV);
+      var resvHref = href || valIn(nl, RES_URL) || '';
+      var html = '<a class="opt-map" href="' + mapsUrl(q) + '" target="_blank" rel="noopener">📍 Map</a>';
+      if (resvKey && resvHref) html += '<a class="opt-book-link" href="' + resvHref + '" target="_blank" rel="noopener">' + (isCard ? 'Reserve ↗' : 'Tickets ↗') + '</a>';
+      if (book) html += '<span class="opt-badge">book ahead</span>';
+      var box = document.createElement(isCard ? 'div' : 'span');
+      box.className = 'opt-links';
+      box.innerHTML = html;
+      el.appendChild(box);
+    }
+
+    var startTop = absTop('day1');
+    function inItinerary(el) { return (el.getBoundingClientRect().top + window.pageYOffset) >= startTop; }
+    document.querySelectorAll('.meal-card').forEach(function (c) { if (inItinerary(c)) enhance(c, true); });
+    document.querySelectorAll('ul.options li').forEach(function (li) { if (!li.closest('details') && inItinerary(li)) enhance(li, false); });
   })();
 </script>
 
