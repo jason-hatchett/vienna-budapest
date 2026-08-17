@@ -156,8 +156,17 @@
   .dc-item { flex: 1; font-size: 13px; color: #333; border-left: 3px solid var(--gold); padding-left: 10px; }
   .daycal-track[data-track="self"] .dc-item { border-left-color: #3D9970; }
   .dc-row.travel .dc-item { border-left-color: var(--mgray); color: #777; }
+  .dc-row.meal .dc-item { border-left-color: #E07B39; }
+  .dc-row.rest .dc-item { border-left-color: var(--mgray); color: #999; font-style: italic; }
   .dc-cost { font-size: 11px; font-weight: 600; color: var(--blue); white-space: nowrap; margin-left: 4px; }
   .daycal-track[data-track="self"] .dc-cost { color: #3D9970; }
+  .dc-pin { text-decoration: none; font-size: 11px; margin-left: 5px; opacity: 0.7; white-space: nowrap; }
+  .dc-pin:hover { opacity: 1; }
+  .dc-resv { font-size: 11px; font-weight: 600; text-decoration: none; margin-left: 6px; color: var(--blue); white-space: nowrap; }
+  .dc-resv:hover { text-decoration: underline; }
+  .dc-resv.need { color: #B4560E; }
+  .dc-need { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: #B4560E; background: #FBE7D3; border-radius: 3px; padding: 1px 5px; margin-left: 6px; white-space: nowrap; }
+  @media print { .dc-pin { display: none; } }
   @media print {
     .daycal-toggle { display: none; }
     .daycal-track { display: block !important; }
@@ -884,36 +893,139 @@
 
   // Day-at-a-glance mini calendars with a Guided / Self-guided toggle
   (function () {
+    // row = [time, label, cost, type, mapsQuery, reserveUrl, needReservation]
+    //   type: '' activity/tour · 't' travel · 'm' meal · 'r' rest
     var DAYCAL = {
       '1': {
-        guided: [['4:45a', 'Land → Le Méridien by ~7:30a', '', 't'], ['2–4:30p', 'Best of Vienna historic center walk', '$89'], ['7–8p', 'Light of Creation show · Votive Church', '$27']],
-        self:   [['4:45a', 'Land → Le Méridien by ~7:30a', '', 't'], ['9–11a', 'Graben · Kohlmarkt · Stephansdom', 'free'], ['1–5p', 'Hofburg exterior + coffee-house crawl', 'free'], ['eve', 'Ringstrasse after dark', 'free']]
+        guided: [
+          ['4:45a', 'Land VIE → CAT train → hotel', '', 't', 'Le Méridien Vienna'],
+          ['8:00a', 'Breakfast · Café Central', '', 'm', 'Café Central Vienna'],
+          ['9:30a', 'Rest / freshen up at hotel', '', 'r'],
+          ['12:30p', 'Lunch · DO & CO, Stephansplatz', '', 'm', 'DO & CO Stephansplatz Vienna', 'https://www.doco.com/en/restaurants/do-co-vienna', 1],
+          ['2–4:30p', 'Best of Vienna historic center walk', '$89', '', 'Stephansplatz Vienna', 'https://www.tripadvisor.com/AttractionProductReview-g190454-d11484010-Best_of_Vienna_Historic_Center_Walking_Tour-Vienna.html', 1],
+          ['4:45p', 'Rest at hotel', '', 'r'],
+          ['7–8p', 'Light of Creation · Votivkirche', '$27', '', 'Votivkirche Vienna', 'https://www.tripadvisor.com/AttractionProductReview-g190454-d32653292-Light_of_Creation_Votive_Church-Vienna.html', 1],
+          ['8:30p', 'Dinner · Figlmüller', '', 'm', 'Figlmüller Bäckerstrasse Vienna', 'https://www.figlmueller.at/en/', 1]
+        ],
+        self: [
+          ['4:45a', 'Land VIE → CAT train → hotel', '', 't', 'Le Méridien Vienna'],
+          ['8:00a', 'Breakfast · Café Central', '', 'm', 'Café Central Vienna'],
+          ['9:30a', 'Rest / drop bags', '', 'r'],
+          ['10–11a', 'Graben · Kohlmarkt · Stephansdom', 'free', '', 'Stephansdom Vienna'],
+          ['12:30p', 'Lunch · Gasthaus Pöschl', '', 'm', 'Gasthaus Pöschl Vienna'],
+          ['1–5p', 'Hofburg exterior + coffee-house crawl', 'free', '', 'Hofburg Vienna'],
+          ['6:00p', 'Rest at hotel', '', 'r'],
+          ['7:30p', 'Dinner · Figlmüller', '', 'm', 'Figlmüller Bäckerstrasse Vienna', 'https://www.figlmueller.at/en/', 1],
+          ['9p', 'Ringstrasse after dark', 'free', '', 'Wiener Staatsoper Vienna']
+        ]
       },
       '2': {
-        guided: [['9–12:30', 'Hofburg Apartments & Treasury', '€22'], ['1–5:30', 'Kunsthistorisches Museum', '€21'], ['7:30–9p', 'Mozarthaus concert', '$70']],
-        self:   [['9–12:30', 'Hofburg exterior + Heldenplatz', 'free'], ['1–5:30', 'Burggarten · Volksgarten · MQ courtyards', 'free'], ['eve', 'State Opera standing room', '~€10']]
+        guided: [
+          ['8:00a', 'Breakfast · Café Central', '', 'm', 'Café Central Vienna'],
+          ['9–12:30', 'Hofburg Apartments & Treasury', '€22', '', 'Hofburg Vienna', 'https://www.hofburg-wien.at/en/', 0],
+          ['1:00p', 'Lunch · Café KHM', '', 'm', 'Kunsthistorisches Museum Vienna'],
+          ['1:30–5:30', 'Kunsthistorisches Museum', '€21', '', 'Kunsthistorisches Museum Vienna', 'https://www.khm.at/en/', 0],
+          ['5:30p', 'Rest at hotel', '', 'r'],
+          ['7:00p', 'Dinner · Gulaschmuseum', '', 'm', 'Gulaschmuseum Vienna', 'https://www.gulaschmuseum.at/', 0],
+          ['7:30–9p', 'Mozarthaus concert', '$70', '', 'Mozarthaus Vienna', 'https://www.tripadvisor.com/AttractionProductReview-g190454-d27131174-Concerts_at_the_Mozarthaus_Vienna-Vienna.html', 1]
+        ],
+        self: [
+          ['8:00a', 'Breakfast · Café Central', '', 'm', 'Café Central Vienna'],
+          ['9–12:30', 'Hofburg exterior + Heldenplatz', 'free', '', 'Heldenplatz Vienna'],
+          ['12:45p', 'Lunch · Glacis Beisl (MQ)', '', 'm', 'Glacis Beisl Vienna', 'https://www.glacisbeisl.at/en/', 0],
+          ['1:30–5:30', 'Burggarten · Volksgarten · MQ courtyards', 'free', '', 'MuseumsQuartier Vienna'],
+          ['6:00p', 'Rest at hotel', '', 'r'],
+          ['7:00p', 'Dinner · Gulaschmuseum', '', 'm', 'Gulaschmuseum Vienna', 'https://www.gulaschmuseum.at/', 0],
+          ['8:00p', 'State Opera standing room (queue day-of)', '~€10', '', 'Wiener Staatsoper Vienna']
+        ]
       },
       '3': {
-        guided: [['8:30–12', 'Schönbrunn Grand Tour · 40 rooms', '€26'], ['1:30–5:30', 'Upper Belvedere · Klimt', '€16'], ['8–9p', 'Vivaldi Four Seasons · Karlskirche', '$45']],
-        self:   [['8:30–12', 'Schönbrunn gardens + Gloriette', 'free'], ['1:30–5:30', 'Belvedere gardens', 'free'], ['dusk', 'Prater + Riesenrad wheel', '~€14']]
+        guided: [
+          ['8:00a', 'Breakfast · Café Gloriette', '', 'm', 'Gloriette Schönbrunn Vienna'],
+          ['8:30–12', 'Schönbrunn Grand Tour · 40 rooms', '€26', '', 'Schönbrunn Palace Vienna', 'https://www.schoenbrunn.at/en/', 1],
+          ['12:30p', 'U4 + tram to Belvedere (~30 min)', '', 't', 'Schloss Belvedere Vienna'],
+          ['1:00p', 'Lunch · Café im Belvedere', '', 'm', 'Café im Belvedere Vienna'],
+          ['1:30–5:30', 'Upper Belvedere · Klimt', '€16', '', 'Upper Belvedere Vienna', 'https://www.belvedere.at/en/', 0],
+          ['6:00p', 'Rest at hotel', '', 'r'],
+          ['7:00p', 'Dinner · Plachutta zur Oper', '', 'm', 'Plachutta Oper Vienna', 'https://www.plachutta-oper.at/en/', 1],
+          ['8–9p', 'Vivaldi Four Seasons · Karlskirche', '$45', '', 'Karlskirche Vienna', 'https://www.tripadvisor.com/AttractionProductReview-g190454-d25225479-Classical_concert_Vivaldi_4_seasons_in_Karlskirche_Vienna-Vienna.html', 1]
+        ],
+        self: [
+          ['8:00a', 'Breakfast · Café Gloriette', '', 'm', 'Gloriette Schönbrunn Vienna'],
+          ['8:30–12', 'Schönbrunn gardens + Gloriette', 'free', '', 'Schönbrunn Gardens Vienna'],
+          ['12:15p', 'Walk to Naschmarkt (~15 min)', '', 't', 'Naschmarkt Vienna'],
+          ['12:30p', 'Lunch · Naschmarkt graze', '', 'm', 'Naschmarkt Vienna'],
+          ['1:30–5:30', 'Belvedere gardens', 'free', '', 'Belvedere Garden Vienna'],
+          ['6:30p', 'Rest at hotel', '', 'r'],
+          ['7:30p', 'Dinner · Fabio’s', '', 'm', 'Fabios Vienna', 'https://www.fabios.at/en/', 1],
+          ['dusk', 'Prater + Riesenrad wheel', '~€14', '', 'Wiener Riesenrad Prater Vienna']
+        ]
       },
       '4': {
-        guided: [['7–9:30a', 'Breakfast & checkout', '', 't'], ['10–12:30', 'Railjet to Budapest', '', 't'], ['2–4p', 'Castle District walking tour', '~$4'], ['8–9:30p', 'Sip & Sail prosecco cruise', '$29']],
-        self:   [['7–9:30a', 'Breakfast & checkout', '', 't'], ['10–12:30', 'Railjet to Budapest', '', 't'], ['2–6p', 'Self-walk: Fisherman’s Bastion, Matthias Ch.', '~€4'], ['eve', 'Liz & Chain rooftop + Chain Bridge walk', 'free']]
+        guided: [
+          ['7–9:30a', 'Breakfast & checkout (Vienna)', '', 'm', 'Le Méridien Vienna'],
+          ['10–12:30', 'Railjet · Wien Hbf → Budapest-Keleti', '', 't', 'Wien Hauptbahnhof'],
+          ['1:00p', 'Check in · Budapest Marriott', '', 'r', 'Budapest Marriott Hotel'],
+          ['1:30p', 'Lunch · Baltázár (Castle Hill)', '', 'm', 'Baltazar Budapest', 'https://baltazarbudapest.com/', 1],
+          ['2–4p', 'Castle District walking tour', '~$4', '', 'Fisherman’s Bastion Budapest', 'https://www.tripadvisor.com/AttractionProductReview-g274887-d24102722-Budapest_Castle_District_Walking_Tour-Budapest_Central_Hungary.html', 0],
+          ['4:30p', 'Rest at hotel', '', 'r'],
+          ['8–9:30p', 'Sip & Sail prosecco cruise', '$29', '', 'Budapest Marriott Hotel', 'https://www.viator.com/tours/Budapest/Budapest-Sunset-Danube-Cruise-with-Unlimited-Prosecco/d499-69242P4', 1]
+        ],
+        self: [
+          ['7–9:30a', 'Breakfast & checkout (Vienna)', '', 'm', 'Le Méridien Vienna'],
+          ['10–12:30', 'Railjet · Wien Hbf → Budapest-Keleti', '', 't', 'Wien Hauptbahnhof'],
+          ['1:00p', 'Check in · Budapest Marriott', '', 'r', 'Budapest Marriott Hotel'],
+          ['1:30p', 'Lunch · Halászbástya', '', 'm', 'Halászbástya Restaurant Budapest', 'https://foglalas.halaszbastya.eu/en/', 1],
+          ['2–6p', 'Self-walk: Fisherman’s Bastion, Matthias Ch.', '~€4', '', 'Matthias Church Budapest'],
+          ['6:30p', 'Rest / freshen up', '', 'r'],
+          ['7:30p', 'Dinner · Divin Porcello', '', 'm', 'Divin Porcello Budapest', 'https://divinporcello.hu/', 1],
+          ['9p', 'Liz & Chain rooftop + Chain Bridge', 'free', '', 'Széchenyi Chain Bridge Budapest']
+        ]
       },
       '5': {
-        guided: [['11–3p', 'Beer Spa + Széchenyi Baths add-on', '$80'], ['6:30–9:30p', 'Tipsy Food Tour + wines', '$84'], ['9:30p+', 'Ruin Pub Crawl · Szimpla +4', '$17']],
-        self:   [['12–5p', 'Széchenyi Thermal Baths', '~€30'], ['7p', 'Dinner · Jewish Quarter', ''], ['9p+', 'DIY ruin bars · Szimpla Kert', 'free']]
+        guided: [
+          ['8:30a', 'Breakfast · Gerbeaud', '', 'm', 'Gerbeaud Café Budapest'],
+          ['9–11a', 'City Landmarks walk · Parliament, Basilica', '~$4', '', 'Hungarian Parliament Building Budapest', 'https://www.tripadvisor.com/AttractionProductReview-g274887-d24079003-Budapest_City_Landmarks_Walking_Tour_in_2_Hours-Budapest_Central_Hungary.html', 0],
+          ['11:30a', 'Transit to City Park (~15 min)', '', 't', 'Széchenyi Thermal Bath Budapest'],
+          ['12–4p', 'Beer Spa + Széchenyi Baths', '$80', '', 'Széchenyi Thermal Bath Budapest', 'https://www.viator.com/tours/Budapest/Beerspa-and-Szechenyi-combined-tickets/d499-192027P1', 1],
+          ['4:30p', 'Rest at hotel', '', 'r'],
+          ['6:30–9:30p', 'Tipsy Food Tour + wines', '$84', '', 'Great Market Hall Budapest', 'https://www.tripadvisor.com/AttractionProductReview-g274887-d32981897-Budapest_Tipsy_Food_Tour_with_Wines_Small_Group_Local_Guide-Budapest_Central_Hungary.html', 1],
+          ['9:30p+', 'Ruin Pub Crawl · Szimpla +4', '$17', '', 'Szimpla Kert Budapest', 'https://www.viator.com/tours/Budapest/Budapest-Pub-Crawl-6-free-shots-VIP-access-Drinking-Games/d499-480875P2', 1]
+        ],
+        self: [
+          ['8:30a', 'Breakfast · Gerbeaud', '', 'm', 'Gerbeaud Café Budapest'],
+          ['9–12', 'Parliament · Shoes on Danube · Basilica', 'free', '', 'Hungarian Parliament Building Budapest', 'https://www.parlament.hu/en/web/visitors', 1],
+          ['12:30p', 'Lunch · Kiosk (City Park)', '', 'm', 'Kiosk Budapest City Park', 'https://www.kioszkbudapest.hu/', 0],
+          ['1–5p', 'Széchenyi Thermal Baths', '~€30', '', 'Széchenyi Thermal Bath Budapest', 'https://www.szechenyifurdo.hu/en', 0],
+          ['5:30p', 'Rest at hotel', '', 'r'],
+          ['7:00p', 'Dinner · Mazel Tov (Jewish Quarter)', '', 'm', 'Mazel Tov Budapest', 'https://www.mazeltov.hu/', 1],
+          ['9p+', 'DIY ruin bars · Szimpla Kert', 'free', '', 'Szimpla Kert Budapest']
+        ]
       },
       '6': {
-        single: [['8–11a', 'Central Market Hall · last stroll', ''], ['12:40–3:20', 'Railjet back to Vienna', '', 't'], ['3:30–8:30', 'Final Vienna hours + farewell dinner', ''], ['11:00p', 'Flight departs VIE', '', 't']]
+        single: [
+          ['8:00a', 'Breakfast · Central Market Hall', '', 'm', 'Great Market Hall Budapest'],
+          ['8–11a', 'Last stroll / souvenirs', '', '', 'Great Market Hall Budapest'],
+          ['11:30a', 'Taxi to Budapest-Keleti', '', 't', 'Budapest Keleti Railway Station'],
+          ['12:40–3:20', 'Railjet · Keleti → Wien Hbf', '', 't', 'Wien Hauptbahnhof'],
+          ['3:30–6:30', 'Final Vienna hours (Belvedere / Ring)', '', '', 'Belvedere Vienna'],
+          ['7:00p', 'Farewell dinner · Figlmüller', '', 'm', 'Figlmüller Bäckerstrasse Vienna', 'https://www.figlmueller.at/en/', 1],
+          ['8:30p', 'CAT / taxi to airport', '', 't', 'Vienna International Airport'],
+          ['11:00p', 'Flight departs VIE', '', 't', 'Vienna International Airport']
+        ]
       }
     };
 
+    function mapsUrl(q) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); }
     function rowHtml(r) {
-      var travel = r[3] === 't';
+      var type = r[3] || '';
+      var cls = type === 't' ? ' travel' : type === 'm' ? ' meal' : type === 'r' ? ' rest' : '';
+      var label = (type === 'm' ? '🍽 ' : '') + r[1];
       var cost = r[2] ? ' <span class="dc-cost">' + r[2] + '</span>' : '';
-      return '<div class="dc-row' + (travel ? ' travel' : '') + '"><span class="dc-time">' + r[0] + '</span><span class="dc-item">' + r[1] + cost + '</span></div>';
+      var pin = r[4] ? ' <a class="dc-pin" href="' + mapsUrl(r[4]) + '" target="_blank" rel="noopener" title="Open in Google Maps">📍</a>' : '';
+      var need = r[6] ? ' <span class="dc-need">book ahead</span>' : '';
+      var resv = r[5] ? ' <a class="dc-resv' + (r[6] ? ' need' : '') + '" href="' + r[5] + '" target="_blank" rel="noopener">reserve ↗</a>' : '';
+      return '<div class="dc-row' + cls + '"><span class="dc-time">' + r[0] + '</span><span class="dc-item">' + label + cost + pin + need + resv + '</span></div>';
     }
     function trackHtml(track, items, active, label) {
       return '<div class="daycal-track' + (active ? ' active' : '') + '" data-track="' + track + '"><div class="dc-track-label">' + label + '</div>' + items.map(rowHtml).join('') + '</div>';
@@ -943,4 +1055,3 @@
 
 </body>
 </html>
-    <li><stro
