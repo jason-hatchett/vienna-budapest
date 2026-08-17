@@ -215,6 +215,18 @@
   .meal-card .plain-name { color: var(--navy); font-weight: 700; font-size: 14px; }
   .meal-card .detail { font-size: 12px; color: #555; margin-top: 4px; line-height: 1.4; }
   .meal-card .price { font-size: 12px; color: var(--blue); font-weight: 600; margin-top: 4px; }
+  .meal-card.activity { border-top-color: var(--blue); }
+
+  /* Guided experiences cards */
+  .exp-card { background: var(--lgray); border-radius: 6px; padding: 12px 14px; border-top: 3px solid var(--gold); display: flex; flex-direction: column; }
+  .exp-card .exp-day { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue); margin-bottom: 4px; }
+  .exp-card .exp-name { color: var(--navy); font-weight: 700; text-decoration: none; font-size: 14px; }
+  .exp-card .exp-name:hover { text-decoration: underline; }
+  .exp-card .detail { font-size: 12px; color: #555; margin: 4px 0 8px; line-height: 1.4; flex: 1; }
+  .exp-card .exp-foot { font-size: 12px; font-weight: 600; }
+  .exp-card .exp-price { color: var(--navy); }
+  .exp-card .exp-book { color: var(--blue); text-decoration: none; margin-left: 8px; }
+  .exp-card .exp-book:hover { text-decoration: underline; }
 
   /* Overview table */
   .overview-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
@@ -276,6 +288,7 @@
     <a class="nav-link" href="#vienna-guide">🇦🇹 Vienna Guide</a>
     <a class="nav-link" href="#budapest-guide">🇭🇺 Budapest Guide</a>
     <a class="nav-link" href="#hungarian-phrases">🗣️ Hungarian Phrases</a>
+    <a class="nav-link" href="#experiences">🎫 Guided Experiences</a>
 
     <span class="nav-group-label">Itinerary</span>
 
@@ -501,6 +514,69 @@
   </table>
 </div>
 </details>
+
+<hr>
+
+<!-- GUIDED EXPERIENCES -->
+<div id="experiences"></div>
+<div class="section-title">🎫 Guided Experiences</div>
+<p class="italic" style="margin:0 0 14px;">The booked tours and paid experiences slotted into the <strong>Guided</strong> track of each day. Prefer to DIY? Every day also has a free self-guided option in its “Day at a glance” toggle. Full catalog on the <a href="tours.html" style="color:var(--blue);font-weight:600;">Tours &amp; Experiences page →</a></p>
+<div class="meal-grid">
+  <div class="exp-card">
+    <div class="exp-day">Day 1 · Sat</div>
+    <a class="exp-name" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d11484010-Best_of_Vienna_Historic_Center_Walking_Tour-Vienna.html" target="_blank">Best of Vienna Historic Center Walk</a>
+    <div class="detail">Small-group orientation walk — Ringstrasse, Hofburg exterior, Stephansdom, Graben. 2–3 hrs.</div>
+    <div class="exp-foot"><span class="exp-price">$89 pp</span><a class="exp-book" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d11484010-Best_of_Vienna_Historic_Center_Walking_Tour-Vienna.html" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 1 · Sat</div>
+    <a class="exp-name" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d32653292-Light_of_Creation_Votive_Church-Vienna.html" target="_blank">Light of Creation · Votivkirche</a>
+    <div class="detail">Immersive light &amp; projection show inside the neo-Gothic Votive Church. 45–60 min. Low-key first evening.</div>
+    <div class="exp-foot"><span class="exp-price">$27 pp</span><a class="exp-book" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d32653292-Light_of_Creation_Votive_Church-Vienna.html" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 2 · Sun</div>
+    <a class="exp-name" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d27131174-Concerts_at_the_Mozarthaus_Vienna-Vienna.html" target="_blank">Concert at Mozarthaus Vienna</a>
+    <div class="detail">Intimate classical concert in the only preserved apartment where Mozart lived. Sells out — book ahead. 1–2 hrs.</div>
+    <div class="exp-foot"><span class="exp-price">$70 pp</span><a class="exp-book" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d27131174-Concerts_at_the_Mozarthaus_Vienna-Vienna.html" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 3 · Mon</div>
+    <a class="exp-name" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d25225479-Classical_concert_Vivaldi_4_seasons_in_Karlskirche_Vienna-Vienna.html" target="_blank">Vivaldi Four Seasons · Karlskirche</a>
+    <div class="detail">Four Seasons by candlelight under the Baroque Karlskirche dome. ~1 hr. Pairs with a nearby dinner.</div>
+    <div class="exp-foot"><span class="exp-price">$45 pp</span><a class="exp-book" href="https://www.tripadvisor.com/AttractionProductReview-g190454-d25225479-Classical_concert_Vivaldi_4_seasons_in_Karlskirche_Vienna-Vienna.html" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 4 · Tue</div>
+    <a class="exp-name" href="https://www.tripadvisor.com/AttractionProductReview-g274887-d24102722-Budapest_Castle_District_Walking_Tour-Budapest_Central_Hungary.html" target="_blank">Budapest Castle District Walking Tour</a>
+    <div class="detail">Fisherman's Bastion, Matthias Church, palace grounds — guided version of the Castle Hill afternoon. 2 hrs, tip-based.</div>
+    <div class="exp-foot"><span class="exp-price">from $4 pp</span><a class="exp-book" href="https://www.tripadvisor.com/AttractionProductReview-g274887-d24102722-Budapest_Castle_District_Walking_Tour-Budapest_Central_Hungary.html" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 4 · Tue</div>
+    <a class="exp-name" href="https://www.viator.com/tours/Budapest/Budapest-Sunset-Danube-Cruise-with-Unlimited-Prosecco/d499-69242P4" target="_blank">Sip &amp; Sail Danube Cruise</a>
+    <div class="detail">Unlimited prosecco while Parliament and Castle Hill glow on the water. 1.5 hrs. Ideal first Budapest night.</div>
+    <div class="exp-foot"><span class="exp-price">$29 pp</span><a class="exp-book" href="https://www.viator.com/tours/Budapest/Budapest-Sunset-Danube-Cruise-with-Unlimited-Prosecco/d499-69242P4" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 5 · Wed</div>
+    <a class="exp-name" href="https://www.viator.com/tours/Budapest/Beerspa-and-Szechenyi-combined-tickets/d499-192027P1" target="_blank">Beer Spa + Széchenyi Baths</a>
+    <div class="detail">Soak in hop-infused thermal water with unlimited beer, plus a full day at the Széchenyi Baths. Covers the baths afternoon.</div>
+    <div class="exp-foot"><span class="exp-price">from $80 pp</span><a class="exp-book" href="https://www.viator.com/tours/Budapest/Beerspa-and-Szechenyi-combined-tickets/d499-192027P1" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 5 · Wed</div>
+    <a class="exp-name" href="https://www.tripadvisor.com/AttractionProductReview-g274887-d32981897-Budapest_Tipsy_Food_Tour_with_Wines_Small_Group_Local_Guide-Budapest_Central_Hungary.html" target="_blank">Budapest Tipsy Food Tour + Wines</a>
+    <div class="detail">Evening food-and-wine tour through the Jewish Quarter — the bridge from dinner into the ruin bars. 3 hrs, small group.</div>
+    <div class="exp-foot"><span class="exp-price">$84 pp</span><a class="exp-book" href="https://www.tripadvisor.com/AttractionProductReview-g274887-d32981897-Budapest_Tipsy_Food_Tour_with_Wines_Small_Group_Local_Guide-Budapest_Central_Hungary.html" target="_blank">Book ↗</a></div>
+  </div>
+  <div class="exp-card">
+    <div class="exp-day">Day 5 · Wed</div>
+    <a class="exp-name" href="https://www.viator.com/tours/Budapest/Budapest-Pub-Crawl-6-free-shots-VIP-access-Drinking-Games/d499-480875P2" target="_blank">Ruin Pub Crawl · Szimpla +4</a>
+    <div class="detail">Guided ruin-bar night — Szimpla plus 3–4 others, VIP skip-the-line entry and 6 shots. 5 hrs. Optional cap to the night.</div>
+    <div class="exp-foot"><span class="exp-price">$17 pp</span><a class="exp-book" href="https://www.viator.com/tours/Budapest/Budapest-Pub-Crawl-6-free-shots-VIP-access-Drinking-Games/d499-480875P2" target="_blank">Book ↗</a></div>
+  </div>
+</div>
 
 <hr>
 
@@ -1108,7 +1184,7 @@
     function enhance(el, isCard) {
       if (el.querySelector('.opt-links')) return;
       var nameEl, href = '';
-      if (isCard) { nameEl = el.querySelector('a') || el.querySelector('.plain-name'); var a = el.querySelector('a'); if (a) href = a.href; }
+      if (isCard) { nameEl = el.querySelector('.plain-name') || el.querySelector('a'); var a = el.querySelector('a'); if (a) href = a.href; }
       else { var strong = el.querySelector('strong'); nameEl = strong || el; var a2 = el.querySelector('a'); if (a2) href = a2.href; }
       if (!nameEl) return;
       var name = (nameEl === el ? el.textContent.split('—')[0] : nameEl.textContent).replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
@@ -1119,7 +1195,7 @@
       var resvKey = keyIn(nl, RESV);
       var resvHref = href || valIn(nl, RES_URL) || '';
       var html = '<a class="opt-map" href="' + mapsUrl(q) + '" target="_blank" rel="noopener">📍 Map</a>';
-      if (resvKey && resvHref) html += '<a class="opt-book-link" href="' + resvHref + '" target="_blank" rel="noopener">' + (isCard ? 'Reserve ↗' : 'Tickets ↗') + '</a>';
+      if (resvKey && resvHref) html += '<a class="opt-book-link" href="' + resvHref + '" target="_blank" rel="noopener">' + (el.classList.contains('activity') ? 'Tickets ↗' : 'Reserve ↗') + '</a>';
       if (book) html += '<span class="opt-badge">book ahead</span>';
       var box = document.createElement(isCard ? 'div' : 'span');
       box.className = 'opt-links';
@@ -1129,8 +1205,29 @@
 
     var startTop = absTop('day1');
     function inItinerary(el) { return (el.getBoundingClientRect().top + window.pageYOffset) >= startTop; }
+
+    // Render activity option lists as cards, matching the meal option cards
+    function toCards(ul) {
+      var grid = document.createElement('div');
+      grid.className = 'meal-grid';
+      Array.prototype.forEach.call(ul.children, function (li) {
+        if (li.tagName !== 'LI') return;
+        var strong = li.querySelector('strong');
+        var name = (strong ? strong.textContent : li.textContent.split('—')[0]).trim();
+        var link = strong && strong.querySelector('a') ? strong.querySelector('a').getAttribute('href') : '';
+        var tmp = li.cloneNode(true);
+        var s = tmp.querySelector('strong'); if (s) s.remove();
+        var desc = tmp.innerHTML.replace(/^\s*(—|-)\s*/, '').trim();
+        var card = document.createElement('div');
+        card.className = 'meal-card activity';
+        card.innerHTML = (link ? '<a href="' + link + '" target="_blank">' + name + '</a>' : '<div class="plain-name">' + name + '</div>') + '<div class="detail">' + desc + '</div>';
+        grid.appendChild(card);
+      });
+      ul.parentNode.replaceChild(grid, ul);
+    }
+    document.querySelectorAll('ul.options').forEach(function (ul) { if (!ul.closest('details') && inItinerary(ul)) toCards(ul); });
+
     document.querySelectorAll('.meal-card').forEach(function (c) { if (inItinerary(c)) enhance(c, true); });
-    document.querySelectorAll('ul.options li').forEach(function (li) { if (!li.closest('details') && inItinerary(li)) enhance(li, false); });
   })();
 </script>
 
