@@ -125,6 +125,16 @@
   /* Section headers */
   .section-title { background: var(--navy); color: white; padding: 10px 16px; font-size: 18px; font-weight: 700; margin: 40px 0 20px; border-radius: 4px; }
 
+  /* Collapsible sections */
+  details.collapsible { margin: 40px 0 20px; }
+  details.collapsible > summary { margin: 0; list-style: none; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  details.collapsible > summary::-webkit-details-marker { display: none; }
+  details.collapsible > summary::after { content: '▸'; font-size: 15px; line-height: 1; transition: transform .2s ease; flex: 0 0 auto; }
+  details.collapsible[open] > summary::after { transform: rotate(90deg); }
+  details.collapsible > summary:hover { filter: brightness(1.12); }
+  details.collapsible > *:not(summary):first-of-type { margin-top: 20px; }
+  @media print { details.collapsible > summary::after { display: none; } }
+
   /* Day headers */
   .day-header { background: var(--navy); color: white; padding: 12px 18px; font-size: 17px; font-weight: 700; margin: 48px 0 20px; border-radius: 4px; }
 
@@ -334,7 +344,8 @@
 
 <!-- VIENNA FOOD & CULTURE -->
 <div id="vienna-guide"></div>
-<div class="section-title">🇦🇹 Vienna: Food, Culture &amp; What to Expect</div>
+<details class="collapsible">
+<summary class="section-title">🇦🇹 Vienna: Food, Culture &amp; What to Expect</summary>
 
 <div class="time-block">
   <div class="time-label">The Cuisine</div>
@@ -365,12 +376,14 @@
     <li><strong>Atmosphere:</strong> Noise levels in traditional Viennese restaurants are low and the atmosphere slightly formal. Not stuffy — just measured.</li>
   </ul>
 </div>
+</details>
 
 <hr>
 
 <!-- BUDAPEST FOOD & CULTURE -->
 <div id="budapest-guide"></div>
-<div class="section-title">🇭🇺 Budapest: Food, Culture &amp; What to Expect</div>
+<details class="collapsible">
+<summary class="section-title">🇭🇺 Budapest: Food, Culture &amp; What to Expect</summary>
 
 <div class="time-block">
   <div class="time-label">The Cuisine</div>
@@ -404,9 +417,15 @@
     <li><strong>Sundays:</strong> Unlike Vienna, Budapest on Sunday is lively. Restaurants, ruin bars, and most attractions are open.</li>
   </ul>
 </div>
+</details>
 
-<div class="time-block" id="hungarian-phrases">
-  <div class="time-label">Essential Hungarian Phrases</div>
+<hr>
+
+<!-- HUNGARIAN PHRASES -->
+<div id="hungarian-phrases"></div>
+<details class="collapsible">
+<summary class="section-title">🗣️ Essential Hungarian Phrases</summary>
+<div class="time-block">
   <p class="italic" style="margin-bottom:12px;">Hungarian (Magyar) is famously difficult, but a few words go a long way. Locals genuinely appreciate any attempt.</p>
   <table class="phrases-table">
     <thead><tr><th>Hungarian</th><th>Pronunciation</th><th>Meaning</th></tr></thead>
@@ -435,6 +454,7 @@
     </tbody>
   </table>
 </div>
+</details>
 
 <hr>
 
@@ -800,6 +820,34 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+  })();
+
+  // Open the matching collapsible section when its nav link is clicked
+  (function () {
+    document.querySelectorAll('.sidebar .nav-link[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        var target = document.getElementById(this.getAttribute('href').slice(1));
+        if (!target) return;
+        var det = target.closest('details.collapsible')
+          || (target.nextElementSibling && target.nextElementSibling.matches('details.collapsible')
+              ? target.nextElementSibling : null);
+        if (det) det.open = true;
+      });
+    });
+  })();
+
+  // Expand every collapsible section for printing / Save PDF, then restore
+  (function () {
+    var saved = [];
+    window.addEventListener('beforeprint', function () {
+      saved = [];
+      document.querySelectorAll('details.collapsible').forEach(function (d) {
+        saved.push([d, d.open]); d.open = true;
+      });
+    });
+    window.addEventListener('afterprint', function () {
+      saved.forEach(function (p) { p[0].open = p[1]; });
+    });
   })();
 </script>
 
