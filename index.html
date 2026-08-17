@@ -1227,6 +1227,9 @@
     }
     document.querySelectorAll('ul.options').forEach(function (ul) { if (!ul.closest('details') && inItinerary(ul)) toCards(ul); });
 
+    // Treat evening (nightlife / attraction) options as activity cards
+    document.querySelectorAll('.meal-card.evening').forEach(function (c) { if (inItinerary(c)) c.classList.add('activity'); });
+
     document.querySelectorAll('.meal-card').forEach(function (c) { if (inItinerary(c)) enhance(c, true); });
   })();
 </script>
