@@ -138,6 +138,32 @@
   /* Day headers */
   .day-header { background: var(--navy); color: white; padding: 12px 18px; font-size: 17px; font-weight: 700; margin: 48px 0 20px; border-radius: 4px; }
 
+  /* Day-at-a-glance mini calendar */
+  .daycal { background: #fff; border: 1px solid var(--mgray); border-radius: 6px; padding: 14px 16px; margin: 0 0 24px; }
+  .daycal:empty { display: none; }
+  .daycal-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .daycal-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); }
+  .daycal-toggle { display: inline-flex; border: 1px solid var(--mgray); border-radius: 20px; overflow: hidden; }
+  .dc-btn { border: none; background: #fff; color: var(--gray); font-family: inherit; font-size: 12px; font-weight: 600; padding: 5px 14px; cursor: pointer; transition: background .15s, color .15s; }
+  .dc-btn.active { background: var(--navy); color: #fff; }
+  .dc-btn:not(.active):hover { background: var(--lgray); }
+  .daycal-track { display: none; }
+  .daycal-track.active { display: block; }
+  .dc-track-label { display: none; }
+  .dc-row { display: flex; gap: 12px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
+  .dc-row:last-child { border-bottom: none; }
+  .dc-time { flex: 0 0 78px; text-align: right; font-size: 12px; color: #888; }
+  .dc-item { flex: 1; font-size: 13px; color: #333; border-left: 3px solid var(--gold); padding-left: 10px; }
+  .daycal-track[data-track="self"] .dc-item { border-left-color: #3D9970; }
+  .dc-row.travel .dc-item { border-left-color: var(--mgray); color: #777; }
+  .dc-cost { font-size: 11px; font-weight: 600; color: var(--blue); white-space: nowrap; margin-left: 4px; }
+  .daycal-track[data-track="self"] .dc-cost { color: #3D9970; }
+  @media print {
+    .daycal-toggle { display: none; }
+    .daycal-track { display: block !important; }
+    .dc-track-label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin: 10px 0 4px; }
+  }
+
   /* Time block */
   .time-block { margin: 24px 0; }
   .time-label { font-size: 16px; font-weight: 700; color: var(--navy); border-bottom: 2px solid var(--blue); padding-bottom: 4px; margin-bottom: 12px; }
@@ -461,6 +487,7 @@
 <!-- ═══ DAY 1 ═══ -->
 <div id="day1"></div>
 <div class="day-header">Day 1 &nbsp;·&nbsp; Saturday, Sep 5 &nbsp;|&nbsp; Arrival in Vienna</div>
+<div class="daycal" data-day="1"></div>
 
 <div class="travel-block">
   <strong>✈️ Travel: Land 4:45 AM → Le Méridien by ~7:30 AM</strong>
@@ -512,6 +539,7 @@
 <!-- ═══ DAY 2 ═══ -->
 <div id="day2"></div>
 <div class="day-header">Day 2 &nbsp;·&nbsp; Sunday, Sep 6 &nbsp;|&nbsp; Hofburg &amp; Kunsthistorisches Museum</div>
+<div class="daycal" data-day="2"></div>
 
 <div class="time-block" id="day2-morning">
   <div class="time-label">🌅 Morning (9 AM – 12:30 PM) — Hofburg Palace Complex</div>
@@ -565,6 +593,7 @@
 <!-- ═══ DAY 3 ═══ -->
 <div id="day3"></div>
 <div class="day-header">Day 3 &nbsp;·&nbsp; Monday, Sep 7 &nbsp;|&nbsp; Schönbrunn &amp; Belvedere</div>
+<div class="daycal" data-day="3"></div>
 <div class="italic" style="margin:8px 0 16px;">Take U4 from Karlsplatz (10 min walk from Le Méridien) to Schönbrunn station — ~20 min total</div>
 
 <div class="time-block" id="day3-morning">
@@ -620,6 +649,7 @@
 <!-- ═══ DAY 4 ═══ -->
 <div id="day4"></div>
 <div class="day-header">Day 4 &nbsp;·&nbsp; Tuesday, Sep 8 &nbsp;|&nbsp; Vienna → Budapest + Castle Hill</div>
+<div class="daycal" data-day="4"></div>
 
 <div class="time-block" id="day4-morning">
   <div class="time-label">🌅 Morning (7–9:30 AM) — Final Vienna Breakfast &amp; Checkout</div>
@@ -673,6 +703,7 @@
 <!-- ═══ DAY 5 ═══ -->
 <div id="day5"></div>
 <div class="day-header">Day 5 &nbsp;·&nbsp; Wednesday, Sep 9 &nbsp;|&nbsp; Full Budapest</div>
+<div class="daycal" data-day="5"></div>
 
 <div class="time-block" id="day5-morning">
   <div class="time-label">🌅 Morning (8:30 AM – 12:30 PM) — Parliament &amp; Riverfront</div>
@@ -728,6 +759,7 @@
 <!-- ═══ DAY 6 ═══ -->
 <div id="day6"></div>
 <div class="day-header">Day 6 &nbsp;·&nbsp; Thursday, Sep 10 &nbsp;|&nbsp; Budapest → Vienna → Departure</div>
+<div class="daycal" data-day="6"></div>
 
 <div class="time-block" id="day6-morning">
   <div class="time-label">🌅 Morning (8–11 AM) — Last Budapest Hours &amp; Checkout</div>
@@ -847,6 +879,64 @@
     });
     window.addEventListener('afterprint', function () {
       saved.forEach(function (p) { p[0].open = p[1]; });
+    });
+  })();
+
+  // Day-at-a-glance mini calendars with a Guided / Self-guided toggle
+  (function () {
+    var DAYCAL = {
+      '1': {
+        guided: [['4:45a', 'Land → Le Méridien by ~7:30a', '', 't'], ['2–4:30p', 'Best of Vienna historic center walk', '$89'], ['7–8p', 'Light of Creation show · Votive Church', '$27']],
+        self:   [['4:45a', 'Land → Le Méridien by ~7:30a', '', 't'], ['9–11a', 'Graben · Kohlmarkt · Stephansdom', 'free'], ['1–5p', 'Hofburg exterior + coffee-house crawl', 'free'], ['eve', 'Ringstrasse after dark', 'free']]
+      },
+      '2': {
+        guided: [['9–12:30', 'Hofburg Apartments & Treasury', '€22'], ['1–5:30', 'Kunsthistorisches Museum', '€21'], ['7:30–9p', 'Mozarthaus concert', '$70']],
+        self:   [['9–12:30', 'Hofburg exterior + Heldenplatz', 'free'], ['1–5:30', 'Burggarten · Volksgarten · MQ courtyards', 'free'], ['eve', 'State Opera standing room', '~€10']]
+      },
+      '3': {
+        guided: [['8:30–12', 'Schönbrunn Grand Tour · 40 rooms', '€26'], ['1:30–5:30', 'Upper Belvedere · Klimt', '€16'], ['8–9p', 'Vivaldi Four Seasons · Karlskirche', '$45']],
+        self:   [['8:30–12', 'Schönbrunn gardens + Gloriette', 'free'], ['1:30–5:30', 'Belvedere gardens', 'free'], ['dusk', 'Prater + Riesenrad wheel', '~€14']]
+      },
+      '4': {
+        guided: [['7–9:30a', 'Breakfast & checkout', '', 't'], ['10–12:30', 'Railjet to Budapest', '', 't'], ['2–4p', 'Castle District walking tour', '~$4'], ['8–9:30p', 'Sip & Sail prosecco cruise', '$29']],
+        self:   [['7–9:30a', 'Breakfast & checkout', '', 't'], ['10–12:30', 'Railjet to Budapest', '', 't'], ['2–6p', 'Self-walk: Fisherman’s Bastion, Matthias Ch.', '~€4'], ['eve', 'Liz & Chain rooftop + Chain Bridge walk', 'free']]
+      },
+      '5': {
+        guided: [['11–3p', 'Beer Spa + Széchenyi Baths add-on', '$80'], ['6:30–9:30p', 'Tipsy Food Tour + wines', '$84'], ['9:30p+', 'Ruin Pub Crawl · Szimpla +4', '$17']],
+        self:   [['12–5p', 'Széchenyi Thermal Baths', '~€30'], ['7p', 'Dinner · Jewish Quarter', ''], ['9p+', 'DIY ruin bars · Szimpla Kert', 'free']]
+      },
+      '6': {
+        single: [['8–11a', 'Central Market Hall · last stroll', ''], ['12:40–3:20', 'Railjet back to Vienna', '', 't'], ['3:30–8:30', 'Final Vienna hours + farewell dinner', ''], ['11:00p', 'Flight departs VIE', '', 't']]
+      }
+    };
+
+    function rowHtml(r) {
+      var travel = r[3] === 't';
+      var cost = r[2] ? ' <span class="dc-cost">' + r[2] + '</span>' : '';
+      return '<div class="dc-row' + (travel ? ' travel' : '') + '"><span class="dc-time">' + r[0] + '</span><span class="dc-item">' + r[1] + cost + '</span></div>';
+    }
+    function trackHtml(track, items, active, label) {
+      return '<div class="daycal-track' + (active ? ' active' : '') + '" data-track="' + track + '"><div class="dc-track-label">' + label + '</div>' + items.map(rowHtml).join('') + '</div>';
+    }
+
+    document.querySelectorAll('.daycal[data-day]').forEach(function (el) {
+      var d = DAYCAL[el.getAttribute('data-day')];
+      if (!d) return;
+      if (d.single) {
+        el.innerHTML = '<div class="daycal-head"><span class="daycal-title">📅 Day at a glance</span></div>' + trackHtml('single', d.single, true, 'Schedule');
+        return;
+      }
+      el.innerHTML =
+        '<div class="daycal-head"><span class="daycal-title">📅 Day at a glance</span>' +
+        '<div class="daycal-toggle"><button class="dc-btn active" data-track="guided">🎫 Guided</button><button class="dc-btn" data-track="self">🚶 Self-guided</button></div></div>' +
+        trackHtml('guided', d.guided, true, 'Guided') + trackHtml('self', d.self, false, 'Self-guided');
+      el.querySelectorAll('.dc-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var t = btn.getAttribute('data-track');
+          el.querySelectorAll('.dc-btn').forEach(function (b) { b.classList.toggle('active', b === btn); });
+          el.querySelectorAll('.daycal-track').forEach(function (tr) { tr.classList.toggle('active', tr.getAttribute('data-track') === t); });
+        });
+      });
     });
   })();
 </script>
